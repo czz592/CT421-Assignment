@@ -3,24 +3,27 @@
 <h2> Leo Chui, Aoife Mulligan </h2>
 </div>
 
-# Part A
 
-## Representation
+# Representation
 
+### 1.1 One-max Problem
 
+We chose to represent the population as strings of 0s and 1s, as it most closely represented the problem's search landscape.
 
-## Plots
+# Plots
 
-
-
-## Results
-
-
-
-## Contribution Details
+### 1.1 One-max Problem
 
 
 
----
+# Results
 
-# Part B
+### 1.1 One-max Problem
+
+
+
+# Contribution Details
+
+### 1.1 One-max Problem
+
+
