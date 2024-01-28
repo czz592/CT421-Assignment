@@ -1,8 +1,13 @@
 
-# CT421 Assignment Repository
+# CT421 Assignment
 
 - Contains code and reports for assignments of 2023/24 CT421
 - Collaborators: Leo Chui (20343266) & Aoife Mulligan (*TOADD*)
+
+# TODO:
+
+- [ ] Part A [Report](Report.md) writing and plots
+- [ ] Part B Code and Report
 
 ## Code Structure
 
