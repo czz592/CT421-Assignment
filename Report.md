@@ -3,27 +3,41 @@
 <h2> Leo Chui, Aoife Mulligan </h2>
 </div>
 
+# Part A
 
-# Representation
+## Representation
 
-### 1.1 One-max Problem
+We decided to use strings to represent the problem and solutions, as it was the most natural representation when considering the problem landscape as described by the assignment brief.
 
-We chose to represent the population as strings of 0s and 1s, as it most closely represented the problem's search landscape.
-
-# Plots
-
-### 1.1 One-max Problem
+## Fitness Function
 
 
 
-# Results
-
-### 1.1 One-max Problem
+## Selection
 
 
 
-# Contribution Details
-
-### 1.1 One-max Problem
+## Crossover
 
 
+
+## Mutation
+
+
+
+## Elitism
+
+
+
+## Plots
+
+
+
+## Results
+
+
+
+## Contribution Details
+
+- Mixed effort using VSCode's Live Share extension
+- 
