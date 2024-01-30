@@ -60,7 +60,6 @@ The elitism function calculates the number of individuals to select as elites, w
 
 ## Contribution Details
 
-<<<<<<< HEAD
 ### Aoife Mulligan (20307646)
 
 For this project I began by creating an initial, basic genetic algorithm. It didn't really work too well, so I went and did some research to understand it more. I realised that I wasn't fully understanding the crossover and mutation parts. Leo and I worked together to build the mutation parts then. 
@@ -71,7 +70,5 @@ For this project I began by creating an initial, basic genetic algorithm. It did
 ---
 
 # Part B
-=======
 - Mixed effort using VSCode's Live Share extension
 - 
->>>>>>> 4d61e429f81362a98e2f6a3270862533d78db07e
