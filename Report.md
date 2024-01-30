@@ -62,3 +62,6 @@ The elitism function calculates the number of individuals to select as elites, w
 
 - Mixed effort using VSCode's Live Share extension
 - 
+
+# Part B
+
