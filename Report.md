@@ -18,7 +18,7 @@ The fitness is based on the number of 1's in the solution / individual. The more
 
 ### 1.2 Target String
 
-Like section [1.1](report.md#11-onemax-problem), except the last 5 digits are replaced with 0. A target string is instantiated, and for every matching character in the solution string, the fitness is increased. The score is negated before returning for consistency.
+Like section [1.1](report.md#1.1%20onemax%20problem), except the last 5 digits are replaced with 0. A target string is instantiated, and for every matching character in the solution string, the fitness is increased. The score is negated before returning for consistency.
 
 ### 1.3 Deceptive Landscape
 
@@ -60,7 +60,7 @@ The algorithm converged quickly for all sections of part A, including 1.3 Decept
 
 ## Contribution Details
 
-Discussion of best representation, what operations to use on solutions, and basic structure of GA. Coding was done in various ways, such as using Visual Studio Code's Live Share extension (Co-author section in commit messages were removed), paired programming in-person or virtual, and through GitHub. 
+Discussion of best representation, what operations to use on solutions, and basic structure of GA. Coding was done in various ways, such as using Visual Studio Code's Live Share extension (Co-author section in commit messages were removed), paired programming (in-person and virtual), and synced files through GitHub. 
 
 ### Aoife Mulligan (20307646)
 
