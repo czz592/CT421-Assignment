@@ -56,22 +56,74 @@ The elitism function calculates the number of individuals to select as elites, w
 
 ## Results
 
-
+The algorithm converged quickly for all sections of part A, including 1.3 Deceptive landscape.
 
 ## Contribution Details
+
+Discussion of best representation, what operations to use on solutions, and basic structure of GA. Coding was done in various ways, such as using Visual Studio Code's Live Share extension (Co-author section in commit messages were removed), paired programming in-person or virtual, and through GitHub. 
 
 ### Aoife Mulligan (20307646)
 
 For this project I began by creating an initial, basic genetic algorithm. It didn't really work too well, so I went and did some research to understand it more. I realised that I wasn't fully understanding the crossover and mutation parts. Leo and I worked together to build the mutation parts then. 
 
-### Leo Chui
+### Leo Chui (20343266)
 
+- Refined various components of GA.
+- Layout of the report and basic descriptions.
 
 ---
 
 # Part B
-- Mixed effort using VSCode's Live Share extension
+
+## Representation
+
+Our method of representing the bin packing problem is as follows.
+
+- An individual, or a solution, is a list of bins.
+- Each bin is represented as a string consisting of 1's and 0's.
+- Each bin is of length $n$, the number of items.
+- 1 means that the item at the index is in the bin, and vice versa.
+
+This method of representation is extremely similar to the representation of part A, and this meant that most of the code from part A were still applicable, with the only difference being the additional dimension, which can be easily compensated for.
+
+## Selection
+
+The selection method we used is tournament selection, code for which we took from part A.
+
+## Crossover
+
+Not implemented yet.
+
+## Mutation
+
+The concept of mutation is the same as part A, except with the addtional dimension, mutation now operates within the individual, on each of its bins.
+
+## Elitism
+
+Elitism is the same code from part A.
+
+## Plots
+
+### No Heuristics or constraints
+
+
+
+## Results
+
+### No Heuristics or constraints
+
+- Poor performance, does not converge
 - 
 
-# Part B
+## Contribution Details
+
+- Similar to part A
+- Lengthy discussion regarding representation and implementation of code
+
+### Aoife Mulligan (20307646)
+
+
+
+### Leo Chui (20343266)
+
 
