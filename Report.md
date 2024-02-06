@@ -9,15 +9,9 @@
 
 </div>
 
-  
-
 # Part A
 
-  
-
 ## Representation
-
-  
 
 We decided to use strings to represent the problem and solutions, as it was the most natural representation when considering the problem landscape as described by the assignment brief, and proved to be the easiest to understand. It made sense to both of us that a binary string would represent an individual for the One-max problem, and that the 1's and 0's would represent its genes.
 
@@ -71,21 +65,25 @@ The ELITE_FACTOR is 1/10.
 
 ## Plots
 
+### 1.1 OneMax
 
-  
-  
+
+
+### 1.2 Target String
+
+
+
+### 1.3 Deceptive Landscape
+
+
 
 ## Results
-
-  
 
 The algorithm converged quickly for all sections of part A, including 1.3 Deceptive landscape.
 
   
 
 ## Contribution Details
-
-  
 
 Discussion of best representation, what operations to use on solutions, and basic structure of GA. Coding was done in various ways, such as using Visual Studio Code's Live Share extension (Co-author section in commit messages were removed), paired programming (in-person and virtual), and synced files through GitHub.
 
@@ -95,33 +93,20 @@ We used https://youtu.be/4XZoVQOt-0I?si=-F8PdT-eNakF7bNT and https://youtu.be/L-
 
 ### Aoife Mulligan (20307646)
 
-  
-
 For this project I began by creating an initial, basic genetic algorithm. I was struggling to get it to function properly, so I went and did some research to understand it more. I realised that I wasn't fully understanding the crossover and mutation parts. Leo and I worked together to build the mutation and crossover parts then.
 
 For the second part of part A, Leo and I used 
 
 ### Leo Chui (20343266)
 
-  
-
 - Refined various components of GA.
-
 - Layout of the report and basic descriptions.
-
-  
 
 ---
 
-  
-
 # Part B
 
-  
-
 ## Representation
-
-  
 
 Our method of representing the bin packing problem is as follows:
 
@@ -142,7 +127,7 @@ This method of representation is extremely similar to the representation of part
   
 We calculate fitness through an error function: 
 
-$$e = (bin\_weight - capacity)$$ 
+$$e = (bin\_weight - capacity)^2$$ 
 
 If the weight of the bin is greater than the capacity, we add 1000 to the error to make it a worse solution.
 
@@ -150,13 +135,9 @@ TODO: add check if there are two bins with the same item
 
 ## Selection
 
-  
-
 The selection method we used is tournament selection, code for which we took from part A.
 
-	For 100 iterations, it takes $k$ random individuals from the population and returns the index of the best of those $k$.
-
-  
+For $\text{pop\_size}$ iterations, it takes $k$ random individuals from the population and returns the index of the best of those $k$.
 
 ## Crossover
 
@@ -184,7 +165,11 @@ Elitism is the same code from part A.
 
 ## Plots
 
-First Problem Set:
+### No Heuristics or constraints
+
+When there are no heuristics in place, the best solution on all problem sets is simply the first solution, which is created using a Next Fit Decreasing approach.   
+
+**First Problem Set**:
 
 Individual bins: 16
 
@@ -192,7 +177,7 @@ Generation 0, best score = 175826.000, average fitness = 175826.000 Generation 9
 
 ![](Pasted%20image%2020240205230623.png)
 
-Second Problem Set:
+**Second Problem Set**:
 
 Individual bins: 16
 
@@ -200,41 +185,32 @@ Generation 0, best score = 150349.000, average fitness = 150349.000 Generation 9
 
 ![](Pasted%20image%2020240205231110.png)
 
-Third Problem Set:
+**Third Problem Set**:
 
 Individual bins: 16
 
 Generation 0, best score = 152333.000, average fitness = 152333.000 Generation 99, best score = 152333.000, average fitness = 799432.590
 ![](Pasted%20image%2020240205231124.png)
 
-Fourth Problem Set:
+**Fourth Problem Set**:
 
 Individual bins: 16
 
 Generation 0, best score = 135723.000, average fitness = 135723.000 Generation 99, best score = 135723.000, average fitness = 694555.970
 ![](Pasted%20image%2020240205230158.png)
 
-Fifth Problem Set:
+**Fifth Problem Set**:
 
 Individual bins: 16
 Generation 0, best score = 158819.000, average fitness = 158819.000 Generation 99, best score = 158819.000, average fitness = 828061.320
 
 ![](Pasted%20image%2020240205231421.png)
 
-
-### No Heuristics or constraints
-
-  
-  
-  
-
 ## Results
 
-  
+
 
 ### No Heuristics or constraints
-
-  
 
 - Poor performance, does not converge
 
