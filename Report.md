@@ -140,7 +140,10 @@ This method of representation is extremely similar to the representation of part
 
 ## Fitness Function:
   
-We calculate fitness through an error function: $$e = (bin\_weight - capacity)$$ 
+We calculate fitness through an error function: 
+
+$$e = (bin\_weight - capacity)$$ 
+
 If the weight of the bin is greater than the capacity, we add 1000 to the error to make it a worse solution.
 
 TODO: add check if there are two bins with the same item
@@ -150,6 +153,7 @@ TODO: add check if there are two bins with the same item
   
 
 The selection method we used is tournament selection, code for which we took from part A.
+
 	For 100 iterations, it takes $k$ random individuals from the population and returns the index of the best of those $k$.
 
   
