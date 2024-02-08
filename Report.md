@@ -212,24 +212,18 @@ When there are no heuristics in place, the best solution for all problem sets is
 
 ## Results
 
-### No Heuristics or constraints
-
-- Poor performance, does not converge
-- 
-
 ### Only Mutation
 
-
+- Poor performance, does not converge.
 
 ### Mutation and Crossover
 
-
+- Poor performance, does not converge.
 
 ## Comments
 
 - Representation made mutation and crossover implementations difficult to have positive effects
 	- Elitism could not keep good bins, and mutation and crossover often resulted in invalid solutions.
-- 
 
 ## Contribution Details
 
@@ -241,13 +235,13 @@ We created most of the initial algorithm in person, using Live Share, before we 
 
 We used https://youtu.be/4XZoVQOt-0I?si=-F8PdT-eNakF7bNT and https://youtu.be/L--IxUH4fac?si=3qAjpSG_JpQEJSCI to understand the basics of programming genetic algorithms. 
 
-### Aoife Mulligan (20307646)
+#### Aoife Mulligan (20307646)
 
 For this project I began by creating an initial, basic genetic algorithm. I was struggling to get it to function properly, so I went and did some research to understand it more. I realised that I wasn't fully understanding the crossover and mutation parts. Leo and I worked together to build the mutation and crossover parts then.
 
 For the second part of part A, Leo and I used 
 
-### Leo Chui (20343266)
+#### Leo Chui (20343266)
 
 - Refined various components of GA.
 - Layout of the report and basic descriptions.
