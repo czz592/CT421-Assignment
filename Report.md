@@ -49,7 +49,7 @@ The crossover mechanism that is implemented is one point crossover.
 
 The function applies crossover probabilistically to each pair of the parents to create children from those parents. Data past the crossover point (determined at random) is copied into the child, and the process is inverted for the other child.
 
-  This function returns two children to be added to the next generation.
+This function returns two children to be added to the next generation.
 
 ## Mutation
 
