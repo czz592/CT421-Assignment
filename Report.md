@@ -21,9 +21,13 @@ We decided to use strings to represent the problem and solutions, as it was the 
 
 The fitness is based on the number of 1's in the solution / individual. The more 1 that are present in the bitstring, the higher the fitness, which is negated to produce a negative score. This means that we are aiming towards finding the lowest fitness score.
 
+![[Pasted image 20240208173630.png]]
+
 ### 1.2 Target String
 
-Like section [1.1](report.md#1.1%20onemax%20problem), except the last 5 digits are replaced with 0. A target string is instantiated, and for every matching character in the solution string, the fitness is increased. A closer match with the target string will yield a better fitness. The score is negated before returning for consistency. 
+Like section [1.1](report.md#1.1%20onemax%20problem), except the last 5 digits are replaced with 0. A target string is instantiated, and for every matching character in the solution string, the fitness is increased. A closer match with the target string will yield a better fitness. The score is negated before returning for consistency.
+
+![[Pasted image 20240208173802.png]]
 
 ### 1.3 Deceptive Landscape
 
@@ -36,6 +40,8 @@ However, if there are no 1 present, a.k.a. there are only 0 present in the strin
 This promotes more 1's in the bitstring, despite max score being 60 in our case.
 
 Our population begins as a randomly generated string of the expected length (30). It is highly unlikely that a string of all 0's will be randomly generated - therefore, our algorithm is extremely unlikely to find the most optimum solution. If it does not, by chance, find all zeros in the first generation, it will '*climb up the wrong hill*', i.e., our fitness function will promote solutions with more 1's, but once it reaches all 1's, it will still not be 'optimum' and will never find the best solution.
+
+![[Pasted image 20240208173848.png]]
 
 ## Selection
 
@@ -67,15 +73,15 @@ The ``ELITE_FACTOR`` is 1/10.
 
 ### 1.1 OneMax
 
-
+![[onemax.png]]
 
 ### 1.2 Target String
 
-
+![[target_string.png]]
 
 ### 1.3 Deceptive Landscape
 
-
+![[deceptive.png]]
 
 ## Results
 
@@ -108,7 +114,7 @@ We calculate fitness through an error function:
 $$e = (bin\_weight - capacity)^2$$ 
 If the weight of the bin is greater than the capacity, we add 1000 to the error to make it a worse solution.
 
-TODO: add check if there are two bins with the same item
+If there are clashes between bins of an individual, we also add 1000 to the error.
 
 ## Selection
 
@@ -116,13 +122,15 @@ The selection method we used is tournament selection, code for which we took fro
 
 For $\text{pop\_size}$ iterations, it takes $k$ random individuals from the population and returns the index of the best of those $k$.
 
+Tournament selection aims to lower error.
+
 ## Crossover
 
-Not implemented yet.
+The crossover we implemented is a one-point crossover, and is the same concept as part A, except that it is within an individual, similar to [[Report#Mutation|mutation]].
 
 ## Mutation
 
-The concept of mutation is the same as part A, except with the addtional dimension, mutation now operates within the individual, on each of its bins.
+The concept of mutation is the same as part A, except with the additional dimension, mutation now operates within the individual, on each of its bins.
 
 We allow mutation to generate invalid solutions, and give them a bad score in the fitness function.
 
@@ -136,51 +144,84 @@ Elitism is the same code from part A.
 
 When there are no heuristics in place, the best solution for all problem sets is simply the first solution, which is created using a Next Fit Decreasing approach in the ``generate_population`` function.
 
-**First Problem Set**:
+##### Problem Set 1
 
-Individual bins: 16
 
-Generation 0, best score = 175826.000, average fitness = 175826.000 Generation 99, best score = 175826.000, average fitness = 956670.520
 
-![](Pasted%20image%2020240205230623.png)
+##### Problem Set 2
 
-**Second Problem Set**:
 
-Individual bins: 16
 
-Generation 0, best score = 150349.000, average fitness = 150349.000 Generation 99, best score = 150349.000, average fitness = 725225.140
+##### Problem Set 3
 
-![](Pasted%20image%2020240205231110.png)
 
-**Third Problem Set**:
 
-Individual bins: 16
+##### Problem Set 4
 
-Generation 0, best score = 152333.000, average fitness = 152333.000 Generation 99, best score = 152333.000, average fitness = 799432.590
-![](Pasted%20image%2020240205231124.png)
 
-**Fourth Problem Set**:
 
-Individual bins: 16
+##### Problem Set 5
 
-Generation 0, best score = 135723.000, average fitness = 135723.000 Generation 99, best score = 135723.000, average fitness = 694555.970
-![](Pasted%20image%2020240205230158.png)
 
-**Fifth Problem Set**:
 
-Individual bins: 16
-Generation 0, best score = 158819.000, average fitness = 158819.000 Generation 99, best score = 158819.000, average fitness = 828061.320
+### Only Mutation
 
-![](Pasted%20image%2020240205231421.png)
+##### Problem Set 1
+
+
+
+##### Problem Set 2
+
+
+
+##### Problem Set 3
+
+
+
+##### Problem Set 4
+
+
+
+##### Problem Set 5
+
+
+
+### Mutation and Crossover
+
+##### Problem Set 1
+
+![[mut_cross_bpp1.png]]
+
+##### Problem Set 2
+
+![[mut_cross_bpp2.png]]
+
+##### Problem Set 3
+
+![[mut_cross_bpp3.png]]
+
+##### Problem Set 4
+
+![[mut_cross_bpp4.png]]
+
+##### Problem Set 5
+
+![[mut_cross_bpp5.png]]
 
 ## Results
-
-
 
 ### No Heuristics or constraints
 
 - Poor performance, does not converge
 - 
+
+### Only Mutation
+
+
+
+### Mutation and Crossover
+
+
 
 ## Contribution Details
 
