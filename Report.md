@@ -23,7 +23,7 @@ The fitness is based on the number of 1's in the solution / individual. The more
 
 ### 1.2 Target String
 
-Like section [1.1](report.md#1.1%20onemax%20problem), except the last 5 digits are replaced with 0. A target string is instantiated, and for every matching character in the solution string, the fitness is increased. A closer match with the target string will yield a better fitness. The score is negated before returning for consistency. 
+Like section [1.1](report.md#1.1%20onemax%20problem), except the last 5 digits are replaced with 0. A target string is instantiated, and for every matching character in the solution string, the fitness is increased. A closer match with the target string will yield a better fitness. The score is negated before returning for consistency.
 
 ### 1.3 Deceptive Landscape
 
@@ -49,7 +49,7 @@ The crossover mechanism that is implemented is one point crossover.
 
 The function applies crossover probabilistically to each pair of the parents to create children from those parents. Data past the crossover point (determined at random) is copied into the child, and the process is inverted for the other child.
 
-  This function returns two children to be added to the next generation.
+This function returns two children to be added to the next generation.
 
 ## Mutation
 
@@ -67,21 +67,33 @@ The ``ELITE_FACTOR`` is 1/10.
 
 ### 1.1 OneMax
 
-
+![[onemax.png]]
 
 ### 1.2 Target String
 
-
+![[target_string.png]]
 
 ### 1.3 Deceptive Landscape
 
-
+![[deceptive.png]]
 
 ## Results
 
 For all sections of part A, the algorithm converges quite quickly (usually within 200 generations), and the reproducibility of the results are high. This indicates landscapes that are not difficult in nature, even the [Deceptive Landscape](Report.md#1.3%20Deceptive%20Landscape). And this can be easily understood, given the simple nature of the problems.
 
 That is true, except for the last problem. Due to the intentionally deceptive fitness function, a.k.a. promoting the appearance of 1's in the solution, the true optimal solution will most likely never be found.
+
+##### 1.1 One-Max
+
+![[Pasted image 20240208173630.png]]
+
+##### 1.2 Target String
+
+![[Pasted image 20240208173802.png]]
+
+##### 1.3 Deceptive Landscape
+
+![[Pasted image 20240208173848.png]]
 
 ---
 
@@ -101,14 +113,19 @@ Our method of representing the bin packing problem is as follows:
 
 This method of representation is extremely similar to the representation of part A, and this meant that most of the code from part A were still applicable, with the only difference being the additional dimension, which can be easily compensated for.
 
-## Fitness Function:
+## Fitness Function
   
 We calculate fitness through an error function: 
 
-$$e = (bin\_weight - capacity)^2$$ 
+$$e = (bin\_weight - capacity)^2$$
+
 If the weight of the bin is greater than the capacity, we add 1000 to the error to make it a worse solution.
 
-TODO: add check if there are two bins with the same item
+If there are item clashes between bins of an individual, we also add 1000 to the error.
+
+The error is squared before being returned.
+
+Fitness of an individual is then calculated by summing fitness of all bins, and the aim of the GA is to minimise this score.
 
 ## Selection
 
@@ -116,13 +133,15 @@ The selection method we used is tournament selection, code for which we took fro
 
 For $\text{pop\_size}$ iterations, it takes $k$ random individuals from the population and returns the index of the best of those $k$.
 
+Tournament selection aims to lower error.
+
 ## Crossover
 
-Not implemented yet.
+The crossover we implemented is a one-point crossover, and is the same concept as part A, except that it is within an individual, similar to [[Report#Mutation|mutation]].
 
 ## Mutation
 
-The concept of mutation is the same as part A, except with the addtional dimension, mutation now operates within the individual, on each of its bins.
+The concept of mutation is the same as part A, except with the additional dimension, mutation now operates within the individual, on each of its bins.
 
 We allow mutation to generate invalid solutions, and give them a bad score in the fitness function.
 
@@ -132,55 +151,82 @@ Elitism is the same code from part A.
 
 ## Plots
 
-### No Heuristics or constraints
+### Non-Random Population
 
 When there are no heuristics in place, the best solution for all problem sets is simply the first solution, which is created using a Next Fit Decreasing approach in the ``generate_population`` function.
 
-**First Problem Set**:
+#### Only Mutation
 
-Individual bins: 16
+##### Problem Set 1
 
-Generation 0, best score = 175826.000, average fitness = 175826.000 Generation 99, best score = 175826.000, average fitness = 956670.520
+![[mut_bpp1.png]]
 
-![](Pasted%20image%2020240205230623.png)
+##### Problem Set 2
 
-**Second Problem Set**:
+![[mut_bpp2.png]]
 
-Individual bins: 16
+##### Problem Set 3
 
-Generation 0, best score = 150349.000, average fitness = 150349.000 Generation 99, best score = 150349.000, average fitness = 725225.140
+![[mut_bpp3.png]]
 
-![](Pasted%20image%2020240205231110.png)
+##### Problem Set 4
 
-**Third Problem Set**:
+![[mut_bpp4.png]]
 
-Individual bins: 16
+##### Problem Set 5
 
-Generation 0, best score = 152333.000, average fitness = 152333.000 Generation 99, best score = 152333.000, average fitness = 799432.590
-![](Pasted%20image%2020240205231124.png)
+![[mut_bpp5.png]]
 
-**Fourth Problem Set**:
+#### Mutation and Crossover
 
-Individual bins: 16
+##### Problem Set 1
 
-Generation 0, best score = 135723.000, average fitness = 135723.000 Generation 99, best score = 135723.000, average fitness = 694555.970
-![](Pasted%20image%2020240205230158.png)
+![[mut_cross_bpp1.png]]
 
-**Fifth Problem Set**:
+##### Problem Set 2
 
-Individual bins: 16
-Generation 0, best score = 158819.000, average fitness = 158819.000 Generation 99, best score = 158819.000, average fitness = 828061.320
+![[mut_cross_bpp2.png]]
 
-![](Pasted%20image%2020240205231421.png)
+##### Problem Set 3
+
+![[mut_cross_bpp3.png]]
+
+##### Problem Set 4
+
+![[mut_cross_bpp4.png]]
+
+##### Problem Set 5
+
+![[mut_cross_bpp5.png]]
+
+### Random Population
+
+Individuals of the population are generated at random. The ``generate_population_random`` function assigns items at random with no consideration for capacity or clashes.
+
+The best solution is typically achieved after a number of generations. Average error typically starts at a high number, before plateauing at a much lower value. However, the error is still typically an astronomical value.
 
 ## Results
 
+### Non-Random Population
 
 
-### No Heuristics or constraints
 
-- Poor performance, does not converge
-- 
+### Random Population
+
+#### Only Mutation
+
+- Poor performance, converges on local optima. Fitness measured in increments of $1_e7$.
+
+#### Mutation and Crossover
+
+- Poor performance, converges on local optima. Fitness measured in increments of $1_e7$.
+
+## Comments
+
+- Representation made mutation and crossover implementations difficult to have positive effects
+	- Elitism keeps individuals, and could not keep good bins
+	- Mutation and crossover often resulted in invalid solutions, even though mutation operated on bin level
+- Heuristics may introduce positive changes
 
 ## Contribution Details
 
@@ -192,13 +238,13 @@ We created most of the initial algorithm in person, using Live Share, before we 
 
 We used https://youtu.be/4XZoVQOt-0I?si=-F8PdT-eNakF7bNT and https://youtu.be/L--IxUH4fac?si=3qAjpSG_JpQEJSCI to understand the basics of programming genetic algorithms. 
 
-### Aoife Mulligan (20307646)
+#### Aoife Mulligan (20307646)
 
 For this project I began by creating an initial, basic genetic algorithm. I was struggling to get it to function properly, so I went and did some research to understand it more. I realised that I wasn't fully understanding the crossover and mutation parts. Leo and I worked together to build the mutation and crossover parts then.
 
 For the second part of part A, Leo and I used 
 
-### Leo Chui (20343266)
+#### Leo Chui (20343266)
 
 - Refined various components of GA.
 - Layout of the report and basic descriptions.
