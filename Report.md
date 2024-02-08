@@ -140,7 +140,9 @@ Elitism is the same code from part A.
 
 ## Plots
 
-### No Heuristics or constraints
+### Next-Fit Decreasing Population
+
+#### No Heuristics or constraints
 
 When there are no heuristics in place, the best solution for all problem sets is simply the first solution, which is created using a Next Fit Decreasing approach in the ``generate_population`` function.
 
@@ -164,29 +166,29 @@ When there are no heuristics in place, the best solution for all problem sets is
 
 
 
-### Only Mutation
+#### Only Mutation
 
 ##### Problem Set 1
 
-
+![[mut_bpp1.png]]
 
 ##### Problem Set 2
 
-
+![[mut_bpp2.png]]
 
 ##### Problem Set 3
 
-
+![[mut_bpp3.png]]
 
 ##### Problem Set 4
 
-
+![[mut_bpp4.png]]
 
 ##### Problem Set 5
 
+![[mut_bpp5.png]]
 
-
-### Mutation and Crossover
+#### Mutation and Crossover
 
 ##### Problem Set 1
 
@@ -222,6 +224,12 @@ When there are no heuristics in place, the best solution for all problem sets is
 ### Mutation and Crossover
 
 
+
+## Comments
+
+- Representation made mutation and crossover implementations difficult to have positive effects
+	- Elitism could not keep good bins, and mutation and crossover often resulted in invalid solutions.
+- 
 
 ## Contribution Details
 
