@@ -21,13 +21,9 @@ We decided to use strings to represent the problem and solutions, as it was the 
 
 The fitness is based on the number of 1's in the solution / individual. The more 1 that are present in the bitstring, the higher the fitness, which is negated to produce a negative score. This means that we are aiming towards finding the lowest fitness score.
 
-![[Pasted image 20240208173630.png]]
-
 ### 1.2 Target String
 
 Like section [1.1](report.md#1.1%20onemax%20problem), except the last 5 digits are replaced with 0. A target string is instantiated, and for every matching character in the solution string, the fitness is increased. A closer match with the target string will yield a better fitness. The score is negated before returning for consistency.
-
-![[Pasted image 20240208173802.png]]
 
 ### 1.3 Deceptive Landscape
 
@@ -40,8 +36,6 @@ However, if there are no 1 present, a.k.a. there are only 0 present in the strin
 This promotes more 1's in the bitstring, despite max score being 60 in our case.
 
 Our population begins as a randomly generated string of the expected length (30). It is highly unlikely that a string of all 0's will be randomly generated - therefore, our algorithm is extremely unlikely to find the most optimum solution. If it does not, by chance, find all zeros in the first generation, it will '*climb up the wrong hill*', i.e., our fitness function will promote solutions with more 1's, but once it reaches all 1's, it will still not be 'optimum' and will never find the best solution.
-
-![[Pasted image 20240208173848.png]]
 
 ## Selection
 
@@ -89,6 +83,18 @@ For all sections of part A, the algorithm converges quite quickly (usually withi
 
 That is true, except for the last problem. Due to the intentionally deceptive fitness function, a.k.a. promoting the appearance of 1's in the solution, the true optimal solution will most likely never be found.
 
+##### 1.1 One-Max
+
+![[Pasted image 20240208173630.png]]
+
+##### 1.2 Target String
+
+![[Pasted image 20240208173802.png]]
+
+##### 1.3 Deceptive Landscape
+
+![[Pasted image 20240208173848.png]]
+
 ---
 
 # Part B
@@ -107,14 +113,19 @@ Our method of representing the bin packing problem is as follows:
 
 This method of representation is extremely similar to the representation of part A, and this meant that most of the code from part A were still applicable, with the only difference being the additional dimension, which can be easily compensated for.
 
-## Fitness Function:
+## Fitness Function
   
 We calculate fitness through an error function: 
 
-$$e = (bin\_weight - capacity)^2$$ 
+$$e = (bin\_weight - capacity)^2$$
+
 If the weight of the bin is greater than the capacity, we add 1000 to the error to make it a worse solution.
 
-If there are clashes between bins of an individual, we also add 1000 to the error.
+If there are item clashes between bins of an individual, we also add 1000 to the error.
+
+The error is squared before being returned.
+
+Fitness of an individual is then calculated by summing fitness of all bins, and the aim of the GA is to minimise this score.
 
 ## Selection
 
@@ -140,31 +151,9 @@ Elitism is the same code from part A.
 
 ## Plots
 
-### Next-Fit Decreasing Population
-
-#### No Heuristics or constraints
+### Non-Random Population
 
 When there are no heuristics in place, the best solution for all problem sets is simply the first solution, which is created using a Next Fit Decreasing approach in the ``generate_population`` function.
-
-##### Problem Set 1
-
-
-
-##### Problem Set 2
-
-
-
-##### Problem Set 3
-
-
-
-##### Problem Set 4
-
-
-
-##### Problem Set 5
-
-
 
 #### Only Mutation
 
@@ -210,20 +199,34 @@ When there are no heuristics in place, the best solution for all problem sets is
 
 ![[mut_cross_bpp5.png]]
 
+### Random Population
+
+Individuals of the population are generated at random. The ``generate_population_random`` function assigns items at random with no consideration for capacity or clashes.
+
+The best solution is typically achieved after a number of generations. Average error typically starts at a high number, before plateauing at a much lower value. However, the error is still typically an astronomical value.
+
 ## Results
 
-### Only Mutation
+### Non-Random Population
 
-- Poor performance, does not converge.
 
-### Mutation and Crossover
 
-- Poor performance, does not converge.
+### Random Population
+
+#### Only Mutation
+
+- Poor performance, converges on local optima. Fitness measured in increments of $1_e7$.
+
+#### Mutation and Crossover
+
+- Poor performance, converges on local optima. Fitness measured in increments of $1_e7$.
 
 ## Comments
 
 - Representation made mutation and crossover implementations difficult to have positive effects
-	- Elitism could not keep good bins, and mutation and crossover often resulted in invalid solutions.
+	- Elitism keeps individuals, and could not keep good bins
+	- Mutation and crossover often resulted in invalid solutions, even though mutation operated on bin level
+- Heuristics may introduce positive changes
 
 ## Contribution Details
 
