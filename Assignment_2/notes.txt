@@ -1,3 +1,4 @@
 Leo:
     - each node contain list of colours, each corresponding to their neighbours, and share this list with their neighbours?
-    - 
+    - Python, OOP approach (interface for agents? and implement different kinds of agents - active vs less active types, a.k.a. more or less willing to change)
+    
