@@ -118,10 +118,9 @@ This method of representation is extremely similar to the representation of part
 We calculate fitness through an error function: 
 
 $$e = (bin\_weight - capacity)^2$$
-
-If the weight of the bin is greater than the capacity, we add 1000 to the error to make it a worse solution.
-
-If there are item clashes between bins of an individual, we also add 1000 to the error.
+	If the weight of the bin is greater than the capacity, we add 1000 to the error to make it a worse solution.
+	If there are item clashes between bins of an individual, or if there is an item not present in any bin, we also add 1000 to the error.
+	*Note that these are added before the error is squared*.
 
 The error is squared before being returned.
 
@@ -203,15 +202,49 @@ When there are no heuristics in place, the best solution for all problem sets is
 
 Individuals of the population are generated at random. The ``generate_population_random`` function assigns items at random with no consideration for capacity or clashes.
 
-The best solution is typically achieved after a number of generations. Average error typically starts at a high number, before plateauing at a much lower value. However, the error is still typically an astronomical value.
+The best solution is typically achieved after a number of generations. Average error typically starts at a high number, before plateauing at a lower value. However, the error is still typically an astronomical value.
+
+This seems, to us, to be due to the fact that in the ``generate_population_random`` function, while we prevent the initial bins from exceeding the capacity, we do not have any method of preventing a single item from being in two or more bins, or for avoiding situations where an item is not in any bin.
+	We instead, made helper functions ``check_clashes`` and ``check_items_present`` to include in the fitness function, in the hopes that these solutions would be removed over time. 
+	While they all improve quite significantly, they do not come close to the best fitness from before. 
+
+##### Problem Set 1
+
+
+![[Pasted image 20240208202720.png]]
+
+##### Problem Set 2
+
+![[Pasted image 20240208202841.png]]
+
+##### Problem Set 3
+
+![[Pasted image 20240208202914.png]]
+##### Problem Set 4
+
+![[Pasted image 20240208202930.png]]
+
+##### Problem Set 5
+
+![[Pasted image 20240208202946.png]]
 
 ## Results
 
 ### Non-Random Population
 
+The non-random population showed little ability to improve over time. It had no stable sense of direction, and seemed to be generating a good score in one generation, but throwing it away and dropping in fitness score for the next generation. The data tells us that our initial grouping of the items into bins was the best score throughout. This tells us that our algorithm really struggled to make meaningful mutations and crossovers throughout this process.
 
+We questioned whether the method of representing the problem made it difficult to produce meaningful/useful mutations, or if our initial population generation was too 'ordered' and whether it might be useful to organise it differently.
+
+Running this, the minimum number of bins was 16. This is not a terrible solution, but the error/fitness score was in six digits, meaning that there was room for improvement, although our algorithm could not find it.
 
 ### Random Population
+
+We tried to overcome some of the difficulties by adding a random population in the beginning - this was accompanied by stricter checking of whether or not a solution was valid. For the random population, we tried not to be overly strict with the initial population, to give a chance for a 'good' combination to appear in an order it might otherwise not be able to. We only added the constraint that the initial population must be within the correct capacity.
+
+This run of the algorithm managed to fit the first set into 9 bins, the second set into 11 bins, the third set into 11 bins, the fourth set into 10 bins, and the fifth set into 10 bins. 
+
+However, as mentioned previously, the error was 8 digits long for each, indicating that our 'solutions' were not optimum or valid.
 
 #### Only Mutation
 
@@ -226,7 +259,7 @@ The best solution is typically achieved after a number of generations. Average e
 - Representation made mutation and crossover implementations difficult to have positive effects
 	- Elitism keeps individuals, and could not keep good bins
 	- Mutation and crossover often resulted in invalid solutions, even though mutation operated on bin level
-- Heuristics may introduce positive changes
+- Stricter constraints lead the algorithm into a more directed path, however, it is not necessarily going to lead it to a global maxima.
 
 ## Contribution Details
 
@@ -240,15 +273,26 @@ We used https://youtu.be/4XZoVQOt-0I?si=-F8PdT-eNakF7bNT and https://youtu.be/L-
 
 #### Aoife Mulligan (20307646)
 
-For this project I began by creating an initial, basic genetic algorithm. I was struggling to get it to function properly, so I went and did some research to understand it more. I realised that I wasn't fully understanding the crossover and mutation parts. Leo and I worked together to build the mutation and crossover parts then.
+For this project I began by creating an initial, basic genetic algorithm. I was struggling to get it to function properly, so I went and did some research to understand it more. I realised that I wasn't fully understanding the crossover and mutation parts after reading this helpful article (https://machinelearningmastery.com/simple-genetic-algorithm-from-scratch-in-python/)[Brownlee, 2021]. Leo and I worked together to build the mutation and crossover parts then.
 
-For the second part of part A, Leo and I used 
+For part A 1.2 and 1.3, Leo and I used most of our code from 1.1. We worked together using Visual Studio's LiveShare extension.
+
+In part B I struggled a lot to initially understand the problem, which meant that I struggled to understand how to represent a solution. After a lot of discussion, Leo and I agreed to try out using a List of lists of bitstrings. I thought it would work well since we could index through an array of the weights at the same time.
+
+When we started implementing it, we used LiveShare most of the time if we could not be in a lab together. Leo made a lot of progress on the initial code, and we managed to eventually get it working without bugs. I think we ended up representing the problem in a way that made it slightly overcomplicated, especially for Python. If I was doing this again, with the same representation, I would probably choose Java. 
+
+Neither of us were very happy with the first results we got from the algorithm, so I thought we should change the initial population, to see if our results start improving. We worked on that together.
+
+We also had some discussions about why our algorithms were performing the way they were, and trying to figure out what they're missing.
 
 #### Leo Chui (20343266)
 
-- Refined various components of GA.
-- Layout of the report and basic descriptions.
+For part A, Aoife began working on the algorithm, and I helped her to develop the mutation and crossover sections, along with finishing 1.1 together using LiveShare. I set up the GitHub repository for the project after we had some code for 1.1. I also created the basic structure of the report, which Aoife then adjusted until we were both happy. For A1.2 and 1.3, the code from 1.1 was mostly reuseable.
 
-### Part B
+For part B, we struggled to figure out how to properly represent the problem. Having bins and weights threw us for a while, but after some brainstorming we decided to represent each bin as a list of lists of strings, and then have a separate array of item weights to index into.
 
-Brainstorming and discussing most intuitive way of representing the problem landscape where both parties had equal input.
+We worked a lot using LiveShare and discord calls, just trying to implement the code and get it functioning. There were quite a few issues with our code and we ended up doing a lot of debugging, sanity checks, and refactoring (as you can see in the commit messages).
+
+Eventually, we got it up and running, but we weren't happy with how the algorithm was moving through generations - it had a lot of fluctuations. Aoife suggested changing a few things like the way we generate the population, so we did that together.
+
+Finally, we discussed the results of our algorithms and compiled this report.
