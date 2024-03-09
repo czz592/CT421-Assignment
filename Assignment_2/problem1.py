@@ -56,7 +56,6 @@ def generate_graph():
     Function to generate a graph using networkx.
 
     TODO: 
-        - first generate a hard-coded trivial 4-node graph
         - figure out what type of graph to generate
             - could do different types depending on what we want, for demonstration of successful approach
         - figure out what parameters to pass in
@@ -65,6 +64,8 @@ def generate_graph():
     G = nx.Graph()
 
     # make list of nodes
+    # TODO: change to make non-trivial graph
+    # based on parameters
     for i in range(1, 5):
         # create node object with i
         G.add_node(Node(str(i)))
@@ -78,9 +79,12 @@ def generate_graph():
     return G
 
 
-def min_colours(g: nx.Graph):
+def minimum_colours(g: nx.Graph):
     """Finds the expected minimum number of colours for any given graph"""
-    pass
+    graph_colouring = nx.coloring.greedy_color(g, strategy='largest_first')
+    min_colours = max(graph_colouring.values()) + 1
+    print("Minimum number of colours required: ", min_colours)
+    return min_colours
 
 
 def fitness_function(g: nx.Graph):
@@ -127,7 +131,7 @@ def problem1():
     graph = generate_graph()
 
     # find minimum number of colours
-    min_colours = min_colours(graph)
+    min_colours = minimum_colours(graph)
     colours = np.random.choice(global_colours_list, min_colours)
     print(colours)
 
