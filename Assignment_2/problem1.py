@@ -228,7 +228,7 @@ def algorithm(graph: nx.Graph, num_iterations: int):
         # update graph with new colours
         nx.draw(graph, pos, with_labels=True, labels=ids,
                 node_color=[node.get_colour() for node in graph.nodes()])
-        plt.pause(2)
+        plt.pause(1)
 
         # get fitness
         fitness = fitness_function(graph)
@@ -280,5 +280,8 @@ if __name__ == '__main__':
     fitness = algorithm(graph, 10)
 
     # plot fitness over time and add to the same figure
-    ax.plot(fitness)
-    fig.show()
+    plt.plot(fitness)
+    plt.xlabel('Iteration')
+    plt.ylabel('Fitness')
+    plt.title('Fitness over time')
+    plt.show()
