@@ -117,7 +117,7 @@ def generate_graph(num_nodes: int = None, num_edges: int = None, seed: int = 0):
     # construct an empty graph object
     G = nx.Graph()
 
-    if num_nodes is None and num_edges is None:
+    if num_nodes is None or num_edges is None:
         # make trivial graph if no parameters passed in
         nodes = [Node(str(i)) for i in range(4)]
         for node in nodes:
@@ -128,15 +128,18 @@ def generate_graph(num_nodes: int = None, num_edges: int = None, seed: int = 0):
         G.add_edge(nodes[2], nodes[3])
         G.add_edge(nodes[3], nodes[0])
     else:
-        # make graph with given parameters
-        # make nodes
-        for i in range(num_nodes):
-            G.add_node(Node(str(i)))
-        # add edges between random nodes
-        for i in range(num_edges):
-            node1 = random.choice(list(G.nodes()))
-            node2 = random.choice(list(G.nodes()))
-            G.add_edge(node1, node2)
+        # small world graph
+        if seed is not None:
+            random.seed(seed)
+        G_small_world = nx.watts_strogatz_graph(num_nodes, num_edges, seed)
+        nodes = [Node(str(i)) for i in range(num_nodes)]
+        for node in nodes:
+            G.add_node(node)
+        for edge in G_small_world.edges():
+            node1, node2 = edge[0], edge[1]
+            # if the nodes are not in the graph, they will be added!!!
+            # a.k.a. they are being duplicated because the graph does not have a reference to the nodes
+            G.add_edge(nodes[int(node1)], nodes[int(node2)])
     return G
 
 
@@ -225,7 +228,7 @@ def algorithm(graph: nx.Graph, num_iterations: int):
         # update graph with new colours
         nx.draw(graph, pos, with_labels=True, labels=ids,
                 node_color=[node.get_colour() for node in graph.nodes()])
-        plt.pause(3)
+        plt.pause(2)
 
         # get fitness
         fitness = fitness_function(graph)
@@ -257,12 +260,6 @@ if __name__ == '__main__':
 
     Generates a graph, finds out minimum number of colours required for the graph and then runs the algorithm.
 
-    ## Structure
-
-    #### Functions
-    - minimum_colour function to return minimum number of colours required for any given networkx graph
-    - colour_init function to give graph a random colouring
-
     #### Procedure (idea)
     1. Generate nodes
     2. Generate graph using nodes
@@ -271,7 +268,8 @@ if __name__ == '__main__':
     5. Run main algorithm (?) till either convergence or iterations reached
     """
     # trivial graph to demonstrate algorithm is functional
-    graph = generate_graph(5, 5)
+    # graph = generate_graph()
+    graph = generate_graph(10, 5, 0)
     min_colours = minimum_colours(graph)
     colours_list = np.random.choice(global_colours_list, min_colours)
     # initialise graph with colours
