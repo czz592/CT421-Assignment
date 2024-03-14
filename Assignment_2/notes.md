@@ -5,7 +5,11 @@ Leo:
     - Python, OOP approach (interface for agents? and implement different kinds of agents - active vs lazy nodes, a.k.a. more or less willing to change)
     - possible idea for part 2:
         - Does the order in which nodes change colour or get coloured matter to the end result we can reach? a.k.a. does it make a difference if they change at random, change the most connected first, or change the least connected first?
-        - something about nodes communicating with each other - 
+        - something about nodes communicating with each other 
+          - assertive - aggressive, but also can tell others to change
+          - aggressive - changes before others do
+          - passive - does whatever others tell it
+          - question - assertive on aggressive? aggressive on aggressive? etc
 
 Aoife:
     - know how many colours you have as 'minimum'
