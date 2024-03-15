@@ -50,16 +50,44 @@ class Node():
         Else move on
         """
         for neighbour in self.neighbours:
-            if self.colour == neighbour.get_colour():
-                self.change_colour()
-                neighbour.change_colour()
-            else:
+            if self.colour != neighbour.get_colour():
                 pass
+            else:  # clash
+                # check available colours
+                self.check_available_colours()
+                # if available colours is not empty, change to one
+                if self.available_colours != []:
+                    # change colour and break - shouldn't be any more conflicts
+                    self.change_colour_available(self.available_colours)
+                    break
+                # if no available colours
+                else:
+                    neighbour.check_available_colours()
+                    if neighbour.available_colours != []:
+                        neighbour.change_colour_available(
+                            neighbour.available_colours)
+                        break
+                    # if no available colours, change randomly
+                    self.change_colour_random()
+                    neighbour.change_colour_random()
+                    break
 
-    def change_colour(self):
+    def check_available_colours(self):
+        """Checking colours available and unavailable in the neighbourhood for the node to change to"""
+        unavailable_colours = [n.get_colour() for n in self.neighbours]
+        self.available_colours = [
+            c for c in self.known_colours if c not in unavailable_colours]
+
+    def change_colour_random(self):
         """Change colour to a random colour in known list"""
         new_colour = random.choice(self.known_colours)
         self.set_colour(new_colour)
+
+    def change_colour_available(self, available_colour: list):
+        """Change colour to random in given list of available colours"""
+        # pick a random colour from the available colours
+        colour = random.choice(available_colour)
+        self.set_colour(colour)
 
     def set_colour(self, colour: str):
         """Set the colour of the node"""
@@ -152,7 +180,6 @@ def node_fitmess(node: Node):
         # check for collision of colours
         if node.get_colour() == neighbour.get_colour():
             conflicts += 1  # increment counter
-            print(f"Conflict count: {conflicts}")
     return conflicts
 
 
@@ -262,8 +289,8 @@ if __name__ == '__main__':
     5. Run main algorithm (?) till either convergence or iterations reached
     """
     # trivial graph to demonstrate algorithm is functional
-    # graph = generate_graph()
-    graph = generate_graph(50, 25, 0)
+    # graph = generate_graph(nodes, edges, seed)
+    graph = generate_graph(25, 10, 0)
     min_colours = minimum_colours(graph)
     colours_list = np.random.choice(global_colours_list, min_colours)
     # initialise graph with colours
@@ -274,6 +301,7 @@ if __name__ == '__main__':
     fitness = algorithm(graph, 100)
 
     # plot fitness over time and add to the same figure
+    plt.figure()
     plt.plot(fitness)
     plt.xlabel('Iteration')
     plt.ylabel('Fitness')
