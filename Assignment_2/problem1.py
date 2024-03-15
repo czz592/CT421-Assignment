@@ -46,8 +46,8 @@ class Node():
         Communicate with neighbour
 
         Goes through neighbours to check for conflicts
-        If conflict exist, both nodes change to a random available colour
-        Else move on
+        If conflict exist, get available colours and neighbour's unavailable colours
+        Change to common colour if available, else change to random colour
         """
         for neighbour in self.neighbours:
             if self.colour != neighbour.get_colour():
@@ -55,39 +55,49 @@ class Node():
             else:  # clash
                 # check available colours
                 self.check_available_colours()
+                neighbour.check_available_colours()
                 # if available colours is not empty, change to one
                 if self.available_colours != []:
-                    # change colour and break - shouldn't be any more conflicts
-                    self.change_colour_available(self.available_colours)
+                    neighbour_unavailable_colours = neighbour.get_unavailable_colours()
+                    # change colour and break
+                    self.change_colour_available(self.available_colours,
+                                                 neighbour_unavailable_colours)
                     break
                 # if no available colours
                 else:
-                    neighbour.check_available_colours()
                     if neighbour.available_colours != []:
                         neighbour.change_colour_available(
                             neighbour.available_colours)
                         break
                     # if no available colours, change randomly
                     self.change_colour_random()
-                    neighbour.change_colour_random()
                     break
 
     def check_available_colours(self):
         """Checking colours available and unavailable in the neighbourhood for the node to change to"""
-        unavailable_colours = [n.get_colour() for n in self.neighbours]
+        self.unavailable_colours = [n.get_colour() for n in self.neighbours]
         self.available_colours = [
-            c for c in self.known_colours if c not in unavailable_colours]
+            c for c in self.known_colours if c not in self.unavailable_colours]
 
     def change_colour_random(self):
         """Change colour to a random colour in known list"""
         new_colour = random.choice(self.known_colours)
         self.set_colour(new_colour)
 
-    def change_colour_available(self, available_colour: list):
+    def change_colour_available(self, available_colour: list, neighbour_unavailable_colours: list = None):
         """Change colour to random in given list of available colours"""
-        # pick a random colour from the available colours
-        colour = random.choice(available_colour)
-        self.set_colour(colour)
+        # find common colours between available colours and neighbours unavailable colours
+        if neighbour_unavailable_colours is not None:
+            common_colours = [
+                c for c in available_colour if c in neighbour_unavailable_colours]
+            # if common colours exist, pick one
+            if common_colours != []:
+                new_colour = random.choice(common_colours)
+                self.set_colour(new_colour)
+            # if no common colours, pick a random colour from the available colours
+            else:
+                new_colour = random.choice(available_colour)
+                self.set_colour(new_colour)
 
     def set_colour(self, colour: str):
         """Set the colour of the node"""
@@ -113,6 +123,10 @@ class Node():
         """Returns neighbours of the node"""
         return self.neighbours
 
+    def get_unavailable_colours(self) -> list:
+        """Returns unavailable colours in the neighbourhood"""
+        return self.unavailable_colours
+
     def get_id(self) -> str:
         return self.id
 
@@ -127,7 +141,7 @@ class Node():
 
 # helper functions
 
-def generate_graph(num_nodes: int = None, num_edges: int = None, seed: int = 0):
+def generate_graph(num_nodes: int = None, num_edges: int = None, p: int = 0.1):
     """
     Function to generate a graph using networkx.
 
@@ -151,9 +165,7 @@ def generate_graph(num_nodes: int = None, num_edges: int = None, seed: int = 0):
         G.add_edge(nodes[3], nodes[0])
     else:
         # small world graph
-        if seed is not None:
-            random.seed(seed)
-        G_small_world = nx.watts_strogatz_graph(num_nodes, num_edges, seed)
+        G_small_world = nx.watts_strogatz_graph(num_nodes, num_edges, p)
         nodes = [Node(str(i)) for i in range(num_nodes)]
         for node in nodes:
             G.add_node(node)
@@ -248,9 +260,9 @@ def algorithm(graph: nx.Graph, num_iterations: int):
         nx.draw(graph, pos, with_labels=True, labels=ids,
                 node_color=[node.get_colour() for node in graph.nodes()])
         if num_iterations <= 100:
-            plt.pause(0.5)
-        else:
             plt.pause(0.1)
+        else:
+            plt.pause(0.05)
 
         # get fitness
         fitness = fitness_function(graph)
@@ -289,8 +301,8 @@ if __name__ == '__main__':
     5. Run main algorithm (?) till either convergence or iterations reached
     """
     # trivial graph to demonstrate algorithm is functional
-    # graph = generate_graph(nodes, edges, seed)
-    graph = generate_graph(25, 10, 0)
+    # graph = generate_graph(nodes, edges, p)
+    graph = generate_graph(20, 6, 0.1)
     min_colours = minimum_colours(graph)
     colours_list = np.random.choice(global_colours_list, min_colours)
     # initialise graph with colours
@@ -298,11 +310,11 @@ if __name__ == '__main__':
 
     # make empty plot to host updating graph
     fig, ax = plt.subplots()
-    fitness = algorithm(graph, 100)
+    fitness = algorithm(graph, 1000)
 
     # plot fitness over time and add to the same figure
-    plt.figure()
-    plt.plot(fitness)
+    # plt.figure()
+    ax.plot(fitness)
     plt.xlabel('Iteration')
     plt.ylabel('Fitness')
     plt.title('Fitness over time')
