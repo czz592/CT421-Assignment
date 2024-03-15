@@ -50,10 +50,7 @@ class Node():
         Else move on
         """
         for neighbour in self.neighbours:
-            print(f"Node {self.id} colour: {self.colour}")
-            print(f"Node {neighbour.id} colour: {neighbour.get_colour()}")
             if self.colour == neighbour.get_colour():
-                print("Conflict detected! Changing colours...")
                 self.change_colour()
                 neighbour.change_colour()
             else:
@@ -61,10 +58,7 @@ class Node():
 
     def change_colour(self):
         """Change colour to a random colour in known list"""
-        print(f"Number of colours: {len(self.known_colours)}")
         new_colour = random.choice(self.known_colours)
-        print(
-            f"Changing colour of node {self.id} from {self.colour} to {new_colour}", end='')
         self.set_colour(new_colour)
 
     def set_colour(self, colour: str):
@@ -156,8 +150,6 @@ def node_fitmess(node: Node):
     conflicts = 0  # init counter
     for neighbour in node.get_neighbours():  # iterate through neighbours
         # check for collision of colours
-        print(
-            f"Node colour: {node.get_colour()}, Neighbour colour: {neighbour.get_colour()}")
         if node.get_colour() == neighbour.get_colour():
             conflicts += 1  # increment counter
             print(f"Conflict count: {conflicts}")
@@ -228,10 +220,14 @@ def algorithm(graph: nx.Graph, num_iterations: int):
         # update graph with new colours
         nx.draw(graph, pos, with_labels=True, labels=ids,
                 node_color=[node.get_colour() for node in graph.nodes()])
-        plt.pause(1)
+        if num_iterations <= 100:
+            plt.pause(0.5)
+        else:
+            plt.pause(0.1)
 
         # get fitness
         fitness = fitness_function(graph)
+        print(f"Iteration: {i}, Fitness: {fitness}")
         if fitness < best_fitness:
             best_fitness = fitness
             print("New best fitness:", best_fitness)
@@ -244,8 +240,6 @@ def algorithm(graph: nx.Graph, num_iterations: int):
         # loop through nodes
         # get them all to communicate with their neighbours
         for node in graph.nodes():
-            # print neighbours
-            print(f"Node {node.id} neighbours: {node.get_neighbours()}")
             node.communicate()
 
         # plot the graph as well as the fitness on the same figure
@@ -269,7 +263,7 @@ if __name__ == '__main__':
     """
     # trivial graph to demonstrate algorithm is functional
     # graph = generate_graph()
-    graph = generate_graph(10, 5, 0)
+    graph = generate_graph(50, 25, 0)
     min_colours = minimum_colours(graph)
     colours_list = np.random.choice(global_colours_list, min_colours)
     # initialise graph with colours
@@ -277,7 +271,7 @@ if __name__ == '__main__':
 
     # make empty plot to host updating graph
     fig, ax = plt.subplots()
-    fitness = algorithm(graph, 10)
+    fitness = algorithm(graph, 100)
 
     # plot fitness over time and add to the same figure
     plt.plot(fitness)
