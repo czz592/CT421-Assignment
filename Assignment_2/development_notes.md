@@ -1,3 +1,8 @@
+# TODO
+
+- change plotting for problem1 - network plot and fitness plot overlap
+- adapt problem2 colour changing
+
 ## Problem1
 
 - copied problem2_1 colour changing code and other stuff to problem1
@@ -7,7 +12,7 @@
 
 ## Problem2_1
 
-- formatting
+- deleted, no longer useful
 
 ## Problem2
 
