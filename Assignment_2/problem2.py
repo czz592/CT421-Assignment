@@ -2,6 +2,8 @@ import matplotlib.pyplot as plt
 import networkx as nx
 import numpy as np
 import random
+import sys
+import os
 
 global_colours_list = [
     '#FFFFFF', '#C0C0C0', '#808080', '#000000', '#FF0000', '#800000',
@@ -34,72 +36,90 @@ class Node():
         - get_colour: return the colour of the node
         - get_neighbours: return the list of neighbours
     """
-    # for this problem, we will pass a 'personality' to the node
-    # Aggressive, Assertive, or Passive
-    # 0, 1, 2 respectively
-    # This will be used to determine the behaviour of the node when a conflict occurs
 
-    # we will also pass a float value from 0-1
-    # if two of the same personality meet, the 'stronger' one will take its behaviour
-    # i.e., a node of 0.9 aggressive, will force a node of 0.1 aggressive to change its colour
-    # but a node of 0.9 passive will almost always change its colour - it is a 'weaker' personality
-    # an assertive personality will change itself if it has more conflicts than its neighbours
-    # it will also force its neighbours to change if it has less conflicts than its neighbours
-
-    # TODO: start with just passive, assertive and aggressive as a hierarchy
-    # aggressive > assertive > passive
-    # if two nodes of the same personality meet, the one with the higher value will choose
-    def __init__(self, id: str):
+    def __init__(self, id: str, personality: int = None):
         self.id = id
         self.colour = None
         self.known_colours = []
         self.neighbours = []
-
-        # randomly have self.personality either be aggressive or passive
-        self.personality = random.choice([0, 1])
-        self.personality_strength = random.random()
+        self.personality = personality
 
     def communicate(self):
         """
         Communicate with neighbour
 
         Goes through neighbours to check for conflicts
-        If conflict exist, node will try to change colour to one not in neighbourhood
-        Else move on
+        Following different rules depending on personality type
         """
         for neighbour in self.neighbours:
-            # print(f"Node {self.id} colour: {self.colour}")
-            # print(f"Node {neighbour.id} colour: {neighbour.get_colour()}")
-            if self.colour == neighbour.get_colour():
-                # print("Conflict detected! Checking personality")
-                # print(f"Node {self.id} type: {self.personality}, strength: {self.strength}")
-                if self.personality == 0 and neighbour.personality == 0:
-                    # aggressive vs aggressive
-                    if self.strength > neighbour.strength:
-                        neighbour.change_colour()
-
-                    else:
-                        self.change_colour()
-                elif (self.personality == 0 and neighbour.personality == 1):
-                    # aggressive vs passive
-                    neighbour.change_colour()
-                elif self.personality == 1 and neighbour.personality == 1:
-                    # passive vs passive
-                    if self.strength > neighbour.strength:
-                        neighbour.change_colour()
-                    else:
-                        self.change_colour()
-                elif self.personality == 1 and neighbour.personality == 0:
-                    self.change_colour()
-            else:
+            if self.colour != neighbour.get_colour():  # no clash
                 pass
+            else:  # clash
+                neighbour_personality = neighbour.get_personality()
+                self.check_available_colours()
+                neighbour.check_available_colours()
+                if self.personality == neighbour_personality:  # clashing personality
+                    # if both has available colours
+                    if self.available_colours != []:
+                        self.change_colour_available(
+                            neighbour.get_unavailable_colours())
+                        break
+                    elif neighbour.available_colours != []:
+                        neighbour.change_colour_available(
+                            self.unavailable_colours)
+                        break
+                    else:
+                        self.change_colour_random()
+                        neighbour.change_colour_random()
+                        break
+                elif self.personality > neighbour_personality:  # self aggressive and neighbour passive
+                    # passive node changes colour
+                    if self.available_colours != [] and neighbour.available_colours != []:
+                        neighbour.change_colour_available(
+                            self.unavailable_colours)
+                        break
+                    else:
+                        neighbour.change_colour_random()
+                        break
+                else:  # self passive and neighbour aggressive
+                    # self changes colour
+                    if self.available_colours != [] and neighbour.available_colours != []:
+                        self.change_colour_available(
+                            neighbour.get_unavailable_colours())
+                        break
+                    else:
+                        self.change_colour_random()
+                        break
 
-    def change_colour(self):
+    def check_available_colours(self):
+        """Checking colours available and unavailable in the neighbourhood for the node to change to"""
+        self.unavailable_colours = [n.get_colour() for n in self.neighbours]
+        self.available_colours = [
+            c for c in self.known_colours if c not in self.unavailable_colours]
+
+    def change_colour_random(self):
         """Change colour to a random colour in known list"""
-        # print(f"Number of colours: {len(self.known_colours)}")
         new_colour = random.choice(self.known_colours)
-        # print(f"Changing colour of node {self.id} from {self.colour} to {new_colour}", end='')
         self.set_colour(new_colour)
+
+    def change_colour_available(self, neighbour_unavailable_colours: list = None):
+        """Change colour to random in given list of available colours"""
+        # find common colours between available colours and neighbours unavailable colours
+        if neighbour_unavailable_colours is not None:
+            common_colours = [
+                c for c in self.available_colours if c in neighbour_unavailable_colours]
+            # if common colours exist, pick one
+            if common_colours != []:
+                new_colour = random.choice(common_colours)
+                self.set_colour(new_colour)
+            # if no common colours, pick a random colour from the available colours
+            else:
+                new_colour = random.choice(self.available_colours)
+                self.set_colour(new_colour)
+        # if neighbour_unavailable_colours is None
+        else:
+            new_colour = random.choice(self.available_colours)
+            self.set_colour(new_colour)
 
     def set_colour(self, colour: str):
         """Set the colour of the node"""
@@ -125,6 +145,14 @@ class Node():
         """Returns neighbours of the node"""
         return self.neighbours
 
+    def get_unavailable_colours(self) -> list:
+        """Returns unavailable colours in the neighbourhood"""
+        return self.unavailable_colours
+
+    def get_personality(self) -> int:
+        """Returns personality type of the node"""
+        return self.personality
+
     def get_id(self) -> str:
         return self.id
 
@@ -137,15 +165,15 @@ class Node():
         return hash(self.id)
 
     def __repr__(self):
-        return f"Node(id={self.id}, colour={self.colour}, personality={self.personality}, strength={self.personality_strength})"
+        return f"Node(id={self.id}, colour={self.colour}, personality={self.personality})"
 
     def __str__(self):
-        return f"Node ID: {self.id}, Colour: {self.colour}, Personality: {'Aggressive' if self.personality == 0 else 'Passive'}, Strength: {self.personality_strength}"
+        return f"Node ID: {self.id}, Colour: {self.colour}, Personality: {'Aggressive' if self.personality == 1 else 'Passive'}"
 
 
 # helper functions
 
-def generate_graph(num_nodes: int = None, num_edges: int = None, p: int = 0.1):
+def generate_graph(num_nodes: int = None, num_edges: int = None, p: int = 0.1, aggro_percentage: float = 0.5):
     """
     Function to generate a graph using networkx.
 
@@ -170,7 +198,14 @@ def generate_graph(num_nodes: int = None, num_edges: int = None, p: int = 0.1):
     else:
         # small world graph
         G_small_world = nx.watts_strogatz_graph(num_nodes, num_edges, p)
-        nodes = [Node(str(i)) for i in range(num_nodes)]
+        # nodes = [Node(str(i)) for i in range(num_nodes)]
+        # create list of nodes, using aggro_percentage
+        nodes = []
+        for i in range(num_nodes):
+            if random.random() < aggro_percentage:
+                nodes.append(Node(str(i), 0))
+            else:
+                nodes.append(Node(str(i), 1))
         for node in nodes:
             G.add_node(node)
         for edge in G_small_world.edges():
@@ -237,7 +272,7 @@ def init_nodes(g: nx.Graph):
         # node.add_neighbour(neighbour for neighbour in neighbours)
 
 
-def algorithm(graph: nx.Graph, num_iterations: int):
+def algorithm(graph: nx.Graph, num_iterations: int, graph_show: bool = True):
     """
     This is the main algorithm for problem 1.
 
@@ -265,10 +300,11 @@ def algorithm(graph: nx.Graph, num_iterations: int):
         # update graph with new colours
         nx.draw(graph, pos, with_labels=True, labels=ids,
                 node_color=[node.get_colour() for node in graph.nodes()])
-        if num_iterations <= 100:
-            plt.pause(0.05)
-        else:
-            plt.pause(0.025)
+        if graph_show:
+            if num_iterations <= 100:
+                plt.pause(0.05)
+            else:
+                plt.pause(0.025)
 
         # get fitness
         fitness = fitness_function(graph)
@@ -291,22 +327,33 @@ def algorithm(graph: nx.Graph, num_iterations: int):
 
 
 if __name__ == '__main__':
-    graph = generate_graph(40, 6, 0.1)
-    min_colours = minimum_colours(graph)
-    # initialise graph with colours
-    init_nodes(graph)
+    for i in range(10):
+        num_nodes = int(sys.argv[1])
+        num_edges = int(sys.argv[2])
+        aggro_percentage = float(sys.argv[3])
+        graph = generate_graph(num_nodes, num_edges,
+                               0.1, aggro_percentage)
+        min_colours = minimum_colours(graph)
+        # initialise graph with colours
+        init_nodes(graph)
 
-    # make empty plot to host graph plot and fitness plot
-    fig = plt.figure()
-    ax1 = fig.add_subplot(2, 1, 1)
-    fitness = algorithm(graph, 1000)
+        # make empty plot to host graph plot and fitness plot
+        fig = plt.figure()
+        ax1 = fig.add_subplot(2, 1, 1)
+        fitness = algorithm(graph, 500, False)
 
-    # plot fitness over time and add to the same figure
-    # ensure no overlapping of plots
-    ax2 = fig.add_subplot(2, 1, 2)
-    ax2.plot(fitness)
-    ax2.set_title("Fitness over time")
-    ax2.set_xlabel("Iterations")
-    ax2.set_ylabel("Fitness")
-    ax2.grid(True)
-    plt.show()
+        # plot fitness over time and add to the same figure
+        # ensure no overlapping of plots
+        ax2 = fig.add_subplot(2, 1, 2)
+        ax2.plot(fitness)
+        ax2.set_title("Fitness over time")
+        ax2.set_xlabel("Iterations")
+        ax2.set_ylabel("Fitness")
+        ax2.grid(True)
+        # save the plot to images folder
+        # relative to the script
+        currdir = os.path.dirname(__file__)
+        image_path = os.path.join(currdir, "Images/prob2")
+        plt.savefig(
+            f"{image_path}/{num_nodes}n_{num_edges}e_{int(aggro_percentage*100)}aggro_{i}.png")
+        plt.close()
