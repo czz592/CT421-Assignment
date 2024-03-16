@@ -2,6 +2,8 @@ import matplotlib.pyplot as plt
 import networkx as nx
 import numpy as np
 import random
+import sys
+import os
 
 global_colours_list = [
     '#FFFFFF', '#C0C0C0', '#808080', '#000000', '#FF0000', '#800000',
@@ -60,8 +62,7 @@ class Node():
                 if self.available_colours != []:
                     neighbour_unavailable_colours = neighbour.get_unavailable_colours()
                     # change colour and break
-                    self.change_colour_available(self.available_colours,
-                                                 neighbour_unavailable_colours)
+                    self.change_colour_available(neighbour_unavailable_colours)
                     break
                 # if no available colours
                 else:
@@ -84,20 +85,24 @@ class Node():
         new_colour = random.choice(self.known_colours)
         self.set_colour(new_colour)
 
-    def change_colour_available(self, available_colour: list, neighbour_unavailable_colours: list = None):
+    def change_colour_available(self, neighbour_unavailable_colours: list = None):
         """Change colour to random in given list of available colours"""
         # find common colours between available colours and neighbours unavailable colours
         if neighbour_unavailable_colours is not None:
             common_colours = [
-                c for c in available_colour if c in neighbour_unavailable_colours]
+                c for c in self.available_colours if c in neighbour_unavailable_colours]
             # if common colours exist, pick one
             if common_colours != []:
                 new_colour = random.choice(common_colours)
                 self.set_colour(new_colour)
             # if no common colours, pick a random colour from the available colours
             else:
-                new_colour = random.choice(available_colour)
+                new_colour = random.choice(self.available_colours)
                 self.set_colour(new_colour)
+        # if neighbour_unavailable_colours is None
+        else:
+            new_colour = random.choice(self.available_colours)
+            self.set_colour(new_colour)
 
     def set_colour(self, colour: str):
         """Set the colour of the node"""
@@ -233,7 +238,7 @@ def init_nodes(g: nx.Graph):
         # node.add_neighbour(neighbour for neighbour in neighbours)
 
 
-def algorithm(graph: nx.Graph, num_iterations: int):
+def algorithm(graph: nx.Graph, num_iterations: int, graph_show: bool = True):
     """
     This is the main algorithm for problem 1.
 
@@ -261,10 +266,11 @@ def algorithm(graph: nx.Graph, num_iterations: int):
         # update graph with new colours
         nx.draw(graph, pos, with_labels=True, labels=ids,
                 node_color=[node.get_colour() for node in graph.nodes()])
-        if num_iterations <= 100:
-            plt.pause(0.05)
-        else:
-            plt.pause(0.025)
+        if graph_show:
+            if num_iterations <= 100:
+                plt.pause(0.05)
+            else:
+                plt.pause(0.025)
 
         # get fitness
         fitness = fitness_function(graph)
@@ -287,22 +293,31 @@ def algorithm(graph: nx.Graph, num_iterations: int):
 
 
 if __name__ == '__main__':
-    graph = generate_graph(40, 6, 0.1)
-    min_colours = minimum_colours(graph)
-    # initialise graph with colours
-    init_nodes(graph)
+    for i in range(10):
+        num_nodes = int(sys.argv[1])
+        num_edges = int(sys.argv[2])
+        graph = generate_graph(num_nodes, num_edges, 0.1)
+        min_colours = minimum_colours(graph)
+        # initialise graph with colours
+        init_nodes(graph)
 
-    # make empty plot to host graph plot and fitness plot
-    fig = plt.figure()
-    ax1 = fig.add_subplot(2, 1, 1)
-    fitness = algorithm(graph, 1000)
+        # make empty plot to host graph plot and fitness plot
+        fig = plt.figure()
+        ax1 = fig.add_subplot(2, 1, 1)
+        fitness = algorithm(graph, 500, False)
 
-    # plot fitness over time and add to the same figure
-    # ensure no overlapping of plots
-    ax2 = fig.add_subplot(2, 1, 2)
-    ax2.plot(fitness)
-    ax2.set_title("Fitness over time")
-    ax2.set_xlabel("Iterations")
-    ax2.set_ylabel("Fitness")
-    ax2.grid(True)
-    plt.show()
+        # plot fitness over time and add to the same figure
+        # ensure no overlapping of plots
+        ax2 = fig.add_subplot(2, 1, 2)
+        ax2.plot(fitness)
+        ax2.set_title("Fitness over time")
+        ax2.set_xlabel("Iterations")
+        ax2.set_ylabel("Fitness")
+        ax2.grid(True)
+        # save the plot to images folder
+        # relative to the script
+        currdir = os.path.dirname(__file__)
+        image_path = os.path.join(currdir, "Images/prob1")
+        plt.savefig(
+            f"{image_path}/{num_nodes}node_{num_edges}edge_{i}.png")
+        plt.close()
