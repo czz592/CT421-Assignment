@@ -9,6 +9,18 @@
 
 </div>
 
+# Development Approach
+
+Our development process began by discussing the assignment. We first discussed the assignment to see each other's interpretation regarding the assignment and brainstorm to come up with how to approach part 1 and ideas for part 2, and collected all of our ideas into a text file to look back at during development.
+
+After a discussion regarding multi-agent systems and graph colouring, and how the two can come together, we decided to take an OOP approach, by creating a ``Node`` class that represents the agents. 
+
+The basic idea is to use ``Networkx``, the Python package for everything networks science and graphs, to create graphs and populate them with instances of the Node class, which will be our agents.
+
+To best mimic the decentralised computation, the main algorithm only calls the ``communicate()`` function of nodes. The nodes then handles everything else.
+
+The code for problem 1 and problem 2 are mostly the same, starting with the class for ``Node``. In order for ``Networkx`` to be able to create graphs using our custom ``Node`` class, it implements some functions that serves no direct purpose for the assignment. The class then has various getters and setters, for variables such as its colour and neighbours. 
+
 # Part 1
 
 ## Initial Graph
