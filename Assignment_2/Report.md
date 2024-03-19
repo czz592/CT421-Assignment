@@ -43,7 +43,7 @@ In the class, the main function of interest in the class is ``communicate()``. G
 
 Based on whether ``available_colours`` of either node 1 or 2 is empty, the node with the non_empty ``available_colours`` will change colour to one in that list, or both will change to a random colour in ``known_colours``.
 
-The rules checked are different between solution 1 and 2, which is the direction of exploration, where we introduce the concept of personalities between nodes.
+This is slightly different in problem 2, which will be discussed in further details in a later section.
 
 ### Graphs
 
@@ -51,6 +51,9 @@ For both problems, we begin testing our the validity of our approach by using a 
 
 ![[initial_graph_prob1.png]]
 
+The topology we chose was Small-World. 
+
+![[10node_6edge_0.png]]
 
 # Part 1
 
@@ -74,3 +77,5 @@ We decided to use a small world graph to represent this problem, because small-w
 ### Graph 1:
 
 
+
+# Appendix
