@@ -41,7 +41,7 @@ In the class, the main function of interest in the class is ``communicate()``. G
 	- ``unavailable-colours``, list of colours of the neighbours
 	- ``available_colours``, list of colours in the ``known_colours`` list that are not in ``unavailable-colours``
 
-Based on whether ``available_colours`` is empty, nodes will change colour to either one in that list, or a random colour in ``known_colours``.
+Based on whether ``available_colours`` of either node 1 or 2 is empty, the node with the non_empty ``available_colours`` will change colour to one in that list, or both will change to a random colour in ``known_colours``.
 
 The rules checked are different between solution 1 and 2, which is the direction of exploration, where we introduce the concept of personalities between nodes.
 
