@@ -19,7 +19,9 @@ The basic idea is to use ``Networkx``, the Python package for everything network
 
 To best mimic the decentralised computation, the main algorithm only calls the ``communicate()`` function of nodes. The nodes then handles everything else.
 
-The code for problem 1 and problem 2 are mostly the same, starting with the class for ``Node``. In order for ``Networkx`` to be able to create graphs using our custom ``Node`` class, it implements some functions that serves no direct purpose for the assignment. The class then has various getters and setters, for variables such as its colour and neighbours. The main function of interest in the class is ``communicate()``. 
+The code for problem 1 and problem 2 are mostly the same, starting with the class for ``Node``. In order for ``Networkx`` to be able to create graphs using our custom ``Node`` class, it implements some functions that serves no direct purpose for the assignment. The class then has various getters and setters, for variables such as its colour and neighbours. 
+
+In the class, the main function of interest in the class is ``communicate()``. This function is the 
 
 # Part 1
 
