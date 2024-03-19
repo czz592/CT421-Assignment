@@ -190,7 +190,7 @@ def minimum_colours(g: nx.Graph):
     return min_colours
 
 
-def node_fitmess(node: Node):
+def node_fitness(node: Node):
     # count number of conflicts
     conflicts = 0  # init counter
     for neighbour in node.get_neighbours():  # iterate through neighbours
@@ -209,7 +209,7 @@ def fitness_function(g: nx.Graph):
     # count number of global conflicts
     conflicts = 0
     for node in g.nodes:
-        conflicts += node_fitmess(node)
+        conflicts += node_fitness(node)
     return conflicts
 
 
