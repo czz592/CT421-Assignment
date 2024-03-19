@@ -20,7 +20,7 @@ After a discussion regarding multi-agent systems and graph colouring, and how th
 ### Structure of Code
 
 Our solutions for the assignment are split based on the problems. Both Python modules contain mostly the same code: 
-- a definition for a ``Node`` class
+- a definition for a ``Node`` class, which includes various OOP-related functions, colour-changing functions, ``communicate()``, and object functions like ``__eq__()`` and ``__hash__()``
 - ``generate_graph()``, a graph generator function that generates either a trivial, 4-node, 4-edge graph if no parameters are passed in, or a Small-World graph with $n$ nodes and $m$ edges
 - ``minimum_colours()``, a function to determine the theoretical minimum chromatic colour of a graph
 - ``node_fitness()`` and ``fitness_function``, first of which calculates conflicts on the individual level, and the latter is a fitness function that calculates the number of conflicts in the entire graph
@@ -41,9 +41,9 @@ In the class, the main function of interest in the class is ``communicate()``. G
 	- ``unavailable-colours``, list of colours of the neighbours
 	- ``available_colours``, list of colours in the ``known_colours`` list that are not in ``unavailable-colours``
 
-Based on whether ``available_colours`` of either node 1 or 2 is empty, the node with the non_empty ``available_colours`` will change colour to one in that list, or both will change to a random colour in ``known_colours``.
+Based on whether ``available_colours`` of either node 1 or 2 is empty, the node with the non-empty ``available_colours`` will change colour to one in that list, or both will change to a random colour in ``known_colours``.
 
-This is slightly different in problem 2, which will be discussed in further details in a later section.
+This is slightly different in problem 2, which will be discussed in further details in its own section.
 
 ### Graphs
 
@@ -57,26 +57,39 @@ The topology we chose was Small-World.
 
 # Part 1
 
-The mutation function randomly changed nodes to a colour that worked. Initially, we had tried changing only the poorest performing node, but this would only reach a fitness of 0 if it started at 0, otherwise it would oscillate between a fitness of 4 and a fitness of 8.
+Generally, part 1 performs fairly well.
 
-We had two methods of measuring fitness: 
-1. Individual fitness of a node, by counting the number of conflicting neighbours. Best fitness would be 0, worst would be 2.
-2. Calculating the overall fitness of the graph by getting the sum of the fitnesses of each node. The best would be 0, worst would be 8.
+## Small-world, 10n 6m
 
-This meant that, the initial fitness function was swapping between having all 4 nodes coloured, and each node having a single conflict for each node.
-I changed this, so that it would randomly choose a node to mutate, and it improved the ability to find the optimal solution.
+For a small-world graph with 10 nodes and 6 degrees, it reaches a minimum colouring 8 times out of 10.
 
-The resulting coloured graph looked like:
+![[10node_6edge_0.png]]
 
-![Coloured Four Node Graph](/Images/colored-4nodes.jpg)
+![[10node_6edge_3.png]]
 
-## Small-World Graphs
 
-We decided to use a small world graph to represent this problem, because small-world graphs are reminiscent of human social networks, and the problem we are tackling concerns a 'society' of sorts.
-
-### Graph 1:
+## Small-world, 40n 6m
 
 
 
 # Appendix
 
+![[10node_6edge_9.png]]
+
+![[10node_6edge_0.png]]
+
+![[10node_6edge_1.png]]
+
+![[10node_6edge_2.png]]
+
+![[10node_6edge_3.png]]
+
+![[10node_6edge_4.png]]
+
+![[10node_6edge_5.png]]
+
+![[10node_6edge_6.png]]
+
+![[10node_6edge_7.png]]
+
+![[10node_6edge_8.png]]
