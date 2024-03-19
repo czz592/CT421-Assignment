@@ -3,7 +3,7 @@
 
 <h1> CT421 Assignment 2 </h1>
 
-<h2> Leo Chui, Aoife Mulligan </h2>
+<h2> Leo Chui (20343266), Aoife Mulligan (20307646)</h2>
 
 <h3><a href="https://www.github.com/czz592/ct421-assignment/">GitHub Repo</a></h3>
 
@@ -11,25 +11,48 @@
 
 # Development Approach
 
+### Brainstorming
+
 Our development process began by discussing the assignment. We first discussed the assignment to see each other's interpretation regarding the assignment and brainstorm to come up with how to approach part 1 and ideas for part 2, and collected all of our ideas into a text file to look back at during development.
 
 After a discussion regarding multi-agent systems and graph colouring, and how the two can come together, we decided to take an OOP approach, by creating a ``Node`` class that represents the agents. 
 
-The basic idea is to use ``Networkx``, the Python package for everything networks science and graphs, to create graphs and populate them with instances of the Node class, which will be our agents.
+### Structure of Code
 
-To best mimic the decentralised computation, the main algorithm only calls the ``communicate()`` function of nodes. The nodes then handles everything else.
+Our solutions for the assignment are split based on the problems. Both Python modules contain mostly the same code: 
+- a definition for a ``Node`` class
+- ``generate_graph()``, a graph generator function that generates either a trivial, 4-node, 4-edge graph if no parameters are passed in, or a Small-World graph with $n$ nodes and $m$ edges
+- ``minimum_colours()``, a function to determine the theoretical minimum chromatic colour of a graph
+- ``node_fitness()`` and ``fitness_function``, first of which calculates conflicts on the individual level, and the latter is a fitness function that calculates the number of conflicts in the entire graph
+- ``init_nodes()``, a function that gives graph a random colouring from the global list of colours, gives all nodes a list of colours that is ``min_colour_num`` long, and updates all nodes with their neighbours
+- ``algorithm()``, the main function for both problems. It calculates the fitness of the graph at any given iteration, checks whether it has converged or not, plots the graph, and gets all nodes to communicate with their neighbours.
 
-The code for problem 1 and problem 2 are mostly the same, starting with the class for ``Node``. In order for ``Networkx`` to be able to create graphs using our custom ``Node`` class, it implements some functions that serves no direct purpose for the assignment. The class then has various getters and setters, for variables such as its colour and neighbours. 
+The basic idea is to use ``Networkx``, the Python package for everything networks science and graphs, to create graphs and populate them with instances of the ``Node`` class, which will be our agents.
 
-In the class, the main function of interest in the class is ``communicate()``.
+#### Node
+
+All nodes maintain two lists, ``neighbours``, which are nodes they are connected to via an edge in the graph, and ``known_colours``, a list of colours that is sufficiently sized to reach a minimum graph colouring. 
+
+In order for ``Networkx`` to be able to create graphs using our custom ``Node`` class, it implements some functions that serves no direct purpose for the assignment (\_\_eq\_\_, \_\_hash\_\_). The class then has various getters and setters, for variables such as its colour and neighbours. 
+
+In the class, the main function of interest in the class is ``communicate()``. General idea of the function is that the node will check for colour conflicts with all of its neighbours. 
+- In the case of no-conflicts, nothing occurs. 
+- In the case of a conflict, both nodes will check for their respective unavailable and available colours
+	- ``unavailable-colours``, list of colours of the neighbours
+	- ``available_colours``, list of colours in the ``known_colours`` list that are not in ``unavailable-colours``
+
+Based on whether ``available_colours`` is empty, nodes will change colour to either one in that list, or a random colour in ``known_colours``.
+
+The rules checked are different between solution 1 and 2, which is the direction of exploration, where we introduce the concept of personalities between nodes.
+
+### Graphs
+
+For both problems, we begin testing our the validity of our approach by using a small graph on 4 nodes, $1,2,3, \text{ and }4$, and the edges list are as follows: $(1,2), (2,3), (3,4), \text{ and } (4,1)$. The minimum colouring for such a graph is 2.
+
+![[initial_graph_prob1.png]]
+
 
 # Part 1
-
-## Initial Graph
-
-We decided to start this assignment by first creating a small graph with 4 nodes and 4 edges, and trying to write an algorithm that could colour it using two colours.
-
-![Initial Four Node Graph](/Images/initial-4nodes.jpg)
 
 The mutation function randomly changed nodes to a colour that worked. Initially, we had tried changing only the poorest performing node, but this would only reach a fitness of 0 if it started at 0, otherwise it would oscillate between a fitness of 4 and a fitness of 8.
 

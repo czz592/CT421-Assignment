@@ -220,7 +220,6 @@ def init_nodes(g: nx.Graph):
 
     ## Parameters
     - g: nx.Graph - graph to be coloured
-    - colours: list - list of colours to be used for the graph
     """
     colours_list = np.random.choice(global_colours_list, min_colours)
 
