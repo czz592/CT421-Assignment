@@ -57,39 +57,119 @@ The topology we chose was Small-World.
 
 # Part 1
 
-Generally, part 1 performs fairly well.
+27/30 converged runs suggests that the algorithm performs well. For the runs that did not converge, our theory is that the initialisation of the graph may sometimes mislead and give the graph a local optima of colouring, as during development, we had great difficulty reaching convergence even for a trivial 4-node graph when we randomly coloured the graph with only the minimum amount of colours needed.
 
-## Small-world, 10n 6m
+## 10 Node 6 Degree
 
-For a small-world graph with 10 nodes and 6 degrees, it reaches a minimum colouring 8 times out of 10.
+For a small-world graph with 10 nodes and 6 degrees, it reaches a minimum colouring 8 times out of 10. Below shows two runs for 1000 iterations, 1 success, 1 fail. More images can be found at the end of the report in the Appendix.
 
 ![[10node_6edge_0.png]]
 
 ![[10node_6edge_3.png]]
 
 
-## Small-world, 40n 6m
+## 40 Node 6 Degree
+
+Part 1 solution performed slightly better over 10 runs, reaching convergence 9 times.
+
+![[40node_6edge_9.png]]
+
+![[40node_6edge_0.png]]
+
+## 40 Node 7 Degree
+
+The solution again reached convergence 8 runs out of 10.
+
+![[40node_7edge_9.png]]
+
+![[40node_7edge_2.png]]
+
+
+# Part 2
+
+We decided to explore what effects may be present if nodes were given "personalities". The inspiration came when the network was interpreted as a network of people, and that the colouring was some sort of "negotiation" process. 
+
+During our discussion for part 1, questions such as "should both change colour at the same time?" and "who would have precedence?" were raised, and the answer was to give nodes a personality.
+
+A node can either be "Aggressive/Assertive" or "Passive". This is represented as an integer, either 0 representing *Passive*, or 1 representing *Aggressive*.
+
+The personality introduces new rules when nodes communicate. Assuming a conflict, node1 will ask for and compares node2's personality with the personality of itself. Depending on the result of the comparison, different logic are used.
 
 
 
 # Appendix
 
-![[10node_6edge_9.png]]
+## Problem 1
+
+### 10 Node 6 Degree
 
 ![[10node_6edge_0.png]]
 
-![[10node_6edge_1.png]]
+![[10node_6edge_9.png]]
 
-![[10node_6edge_2.png]]
-
-![[10node_6edge_3.png]]
-
-![[10node_6edge_4.png]]
-
-![[10node_6edge_5.png]]
-
-![[10node_6edge_6.png]]
+![[10node_6edge_8.png]]
 
 ![[10node_6edge_7.png]]
 
-![[10node_6edge_8.png]]
+![[10node_6edge_6.png]]
+
+![[10node_6edge_5.png]]
+
+![[10node_6edge_4.png]]
+
+![[10node_6edge_3.png]]
+
+![[10node_6edge_2.png]]
+
+![[10node_6edge_1.png]]
+
+
+
+### 40 Node 6 Degree
+
+![[40node_6edge_3.png]]
+
+![[40node_6edge_2.png]]
+
+![[40node_6edge_0.png]]
+
+![[40node_6edge_1.png]]
+
+![[40node_6edge_9.png]]
+
+![[40node_6edge_8.png]]
+
+![[40node_6edge_7.png]]
+
+![[40node_6edge_6.png]]
+
+![[40node_6edge_5.png]]
+
+![[40node_6edge_4.png]]
+
+### 40 Node 7 Degree
+
+![[40node_7edge_0.png]]
+
+![[40node_7edge_9.png]]
+
+![[40node_7edge_8.png]]
+
+![[40node_7edge_7.png]]
+
+![[40node_7edge_6.png]]
+
+![[40node_7edge_5.png]]
+
+![[40node_7edge_4.png]]
+
+![[40node_7edge_3.png]]
+
+![[40node_7edge_2.png]]
+
+![[40node_7edge_1.png]]
+
+
+
+## Problem 2
+
