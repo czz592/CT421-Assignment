@@ -93,7 +93,7 @@ During our discussion for part 1, questions such as "should both change colour a
 
 A node can either be "Aggressive/Assertive" or "Passive". This is represented as an integer, either 0 representing *Passive*, or 1 representing *Aggressive*.
 
-The personality introduces new rules when nodes communicate. Assuming a conflict, node1 will ask for and compares node2's personality with the personality of itself. Depending on the result of the comparison, different logic are used.
+The ``personality`` introduces new rules when nodes communicate. Assuming a conflict, node1 will ask for and compares node2's personality with the personality of itself. Depending on the result of the comparison, different logic are used.
 
 
 
