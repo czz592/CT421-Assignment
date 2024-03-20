@@ -89,11 +89,18 @@ The solution again reached convergence 8 runs out of 10.
 
 We decided to explore what effects may be present if nodes were given "personalities". The inspiration came when the network was interpreted as a network of people, and that the colouring was some sort of "negotiation" process. 
 
-During our discussion for part 1, questions such as "should both change colour at the same time?" and "who would have precedence?" were raised, and the answer was to give nodes a personality.
+During our discussion for part 1, questions such as "should both nodes change colour at the same time?" or "which node would have precedence if they are not to change at the same time?" were raised, and an attempt to address those questions was to give nodes a personality.
 
 A node can either be "Aggressive/Assertive" or "Passive". This is represented as an integer, either 0 representing *Passive*, or 1 representing *Aggressive*.
 
-The ``personality`` introduces new rules when nodes communicate. Assuming a conflict, node1 will ask for and compares node2's personality with the personality of itself. Depending on the result of the comparison, different logic are used.
+The ``personality`` affects the way nodes communicate, as thwe two types of personality has different "priority" when changing colours, and the new set of rules when communicating is listed below.
+
+Assuming conflict, both check available colours and personalities. 
+
+If personalities clash (both aggressive or both passive):
+
+- if either node has available colours: the node with available colours will change
+- else both change to random
 
 
 
