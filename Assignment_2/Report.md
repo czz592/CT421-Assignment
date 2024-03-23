@@ -102,7 +102,9 @@ If personalities clash (both aggressive or both passive):
 - if either node has available colours: the node with available colours will change
 - else both change to random
 
-Else, 
+Else, the aggressive node will tell the passive node to either change to an available colour, or a random colour, depending on whether or not their lists of available colours are empty or not.
+
+
 
 # Appendix
 
