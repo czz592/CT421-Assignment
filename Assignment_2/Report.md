@@ -87,6 +87,8 @@ The solution again reached convergence 8 runs out of 10.
 
 # Part 2
 
+## Changes to Communicate
+
 We decided to explore what effects may be present if nodes were given "personalities". The inspiration came when the network was interpreted as a network of people, and that the colouring was some sort of "negotiation" process. 
 
 During our discussion for part 1, questions such as "should both nodes change colour at the same time?" or "which node would have precedence if they are not to change at the same time?" were raised, and an attempt to address those questions was to give nodes a personality.
@@ -103,6 +105,23 @@ If personalities clash (both aggressive or both passive):
 - else both change to random
 
 Else, the aggressive node will tell the passive node to either change to an available colour, or a random colour, depending on whether or not their lists of available colours are empty or not.
+
+
+To test the approach, we decided to stick with the 40 node, 6 degree, small-world graph. The numbers are of arbitrary choice. Below will compare the different percentages of aggressive nodes. Please note that the percentage of aggressive nodes are approximated, as the random function is used.
+
+## 50% Aggressive
+
+
+
+## 30% Aggressive
+
+
+
+## 70% Aggressive
+
+
+
+# Conclusion & Discussion
 
 
 
