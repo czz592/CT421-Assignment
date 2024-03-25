@@ -112,7 +112,6 @@ To test the approach, we decided to stick with the 40 node, 6 degree, small-worl
 
 ![[40n_6e_10aggro_0.png]]
 
-
 ## 30% Aggressive
 
 
@@ -125,9 +124,25 @@ To test the approach, we decided to stick with the 40 node, 6 degree, small-worl
 
 
 
-# Conclusion & Discussion
+# Discussion
 
+## Overcomplication
 
+In hindsight, it is possible that we overcomplicated this assignment. It may have sufficed to leave part 1's communication mechanism as "both node change randomly on conflict", or something simple, along that line of thinking. It was what we previously had implemented, but later changed for reasons we are not sure of.
+
+## Results
+
+There are no significant, obvious change to the performance introduced by the concept of personality. This might in part be due to the fact that we possibly overcomplicated part 1, which is discussed in previous section.
+
+# Conclusion 
+
+Our solution to agent-based graph colouring relies on the communication mechanism built into our custom agents, which are the agents for our graphs. 
+
+In part 1, we described the approach in closer detail, and briefly listed some of the results, as well as explaining why we think the results came to be.
+
+In part 2, we introduced the concept of "personalities" to nodes, where a node can either be aggressive or passive. We detailed the changes in communication rules based on personalities, and demonstrated the fitness progressions of some of the runs.
+
+Lastly, we briefly discussed our thoughts on our approach.
 
 # Appendix
 
@@ -154,8 +169,6 @@ To test the approach, we decided to stick with the 40 node, 6 degree, small-worl
 ![[10node_6edge_2.png]]
 
 ![[10node_6edge_1.png]]
-
-
 
 ### 40 Node 6 Degree
 
@@ -201,7 +214,92 @@ To test the approach, we decided to stick with the 40 node, 6 degree, small-worl
 
 ![[40node_7edge_1.png]]
 
-
-
 ## Problem 2
 
+### 10% Aggressive
+
+![[40n_6e_10aggro_0.png]]
+
+![[40n_6e_10aggro_1.png]]
+
+![[40n_6e_10aggro_2.png]]
+
+![[40n_6e_10aggro_3.png]]
+
+![[40n_6e_10aggro_4.png]]
+
+![[40n_6e_10aggro_5.png]]
+
+![[40n_6e_10aggro_6.png]]
+
+![[40n_6e_10aggro_7.png]]
+
+![[40n_6e_10aggro_8.png]]
+
+![[40n_6e_10aggro_9.png]]
+
+### 30% Aggressive
+
+![[40n_6e_30aggro_0.png]]
+
+![[40n_6e_30aggro_1.png]]
+
+![[40n_6e_30aggro_2.png]]
+
+![[40n_6e_30aggro_3.png]]
+
+![[40n_6e_30aggro_4.png]]
+
+![[40n_6e_30aggro_5.png]]
+
+![[40n_6e_30aggro_6.png]]
+
+![[40n_6e_30aggro_7.png]]
+
+![[40n_6e_30aggro_8.png]]
+
+![[40n_6e_30aggro_9.png]]
+
+### 50% Aggressive
+
+![[40n_6e_50aggro_0.png]]
+
+![[40n_6e_50aggro_1.png]]
+
+![[40n_6e_50aggro_2.png]]
+
+![[40n_6e_50aggro_3.png]]
+
+![[40n_6e_50aggro_4.png]]
+
+![[40n_6e_50aggro_5.png]]
+
+![[40n_6e_50aggro_6.png]]
+
+![[40n_6e_50aggro_7.png]]
+
+![[40n_6e_50aggro_8.png]]
+
+![[40n_6e_50aggro_9.png]]
+
+### 70% Aggressive
+
+![[40n_6e_70aggro_0.png]]
+
+![[40n_6e_70aggro_1.png]]
+
+![[40n_6e_70aggro_2.png]]
+
+![[40n_6e_70aggro_3.png]]
+
+![[40n_6e_70aggro_4.png]]
+
+![[40n_6e_70aggro_5.png]]
+
+![[40n_6e_70aggro_6.png]]
+
+![[40n_6e_70aggro_7.png]]
+
+![[40n_6e_70aggro_8.png]]
+
+![[40n_6e_70aggro_9.png]]
