@@ -3,8 +3,15 @@
 <h1> CT421 Assignment 2 </h1>
 <h2> Leo Chui (20343266), Aoife Mulligan (20307646)</h2>
 <h3><a href="https://www.github.com/czz592/ct421-assignment/">GitHub Repo</a></h3>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<b>N.B There are 70 images in the appendix beginning at page 24, hence the 93 page count.</b>
 </div>
-
 <div class="page-break" style="page-break-before: always;"></div>
 
 # Development Approach
