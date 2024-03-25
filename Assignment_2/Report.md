@@ -1,13 +1,11 @@
 
 <div align="center">
-
 <h1> CT421 Assignment 2 </h1>
-
 <h2> Leo Chui (20343266), Aoife Mulligan (20307646)</h2>
-
 <h3><a href="https://www.github.com/czz592/ct421-assignment/">GitHub Repo</a></h3>
-
 </div>
+
+<div class="page-break" style="page-break-before: always;"></div>
 
 # Development Approach
 
@@ -55,6 +53,8 @@ The topology we chose was Small-World.
 
 ![[10node_6edge_0.png]]
 
+<div class="page-break" style="page-break-before: always;"></div>
+
 # Part 1
 
 27/30 converged runs suggests that the algorithm performs well. For the runs that did not converge, our theory is that the initialisation of the graph may sometimes mislead and give the graph a local optima of colouring, as during development, we had great difficulty reaching convergence even for a trivial 4-node graph when we randomly coloured the graph with only the minimum amount of colours needed.
@@ -84,6 +84,7 @@ The solution again reached convergence 8 runs out of 10.
 
 ![[40node_7edge_2.png]]
 
+<div class="page-break" style="page-break-before: always;"></div>
 
 # Part 2
 
@@ -106,33 +107,57 @@ If personalities clash (both aggressive or both passive):
 
 Else, the aggressive node will tell the passive node to either change to an available colour, or a random colour, depending on whether or not their lists of available colours are empty.
 
-To test the approach, we decided to stick with the 40 node, 6 degree, small-world graph. The numbers are of arbitrary choice. Below will compare the different percentages of aggressive nodes. Please note that the percentage of aggressive nodes are approximated, as the random function is used.
+To test the approach, we decided to stick with the 40 node, 6 degree, small-world graph. The numbers were chosen arbitrarily. Below will compare the different percentages of aggressive nodes. Please note that the percentage of aggressive nodes are approximated, as the random function is used.
 
 ## 10% Aggressive
 
+Below features two runs that are most representative of all runs. Runs either converge under 10 iterations, or never converge, only reaching a fitness that approaches convergence. 
+
 ![[40n_6e_10aggro_0.png]]
+
+![[40n_6e_10aggro_3.png]]
 
 ## 30% Aggressive
 
+A similar trend to 10% aggressive, with a slight increase in instability on the non-convergence runs.
 
+![[40n_6e_30aggro_3.png]]
+
+![[40n_6e_30aggro_2.png]]
+
+![[40n_6e_30aggro_1.png]]
 
 ## 50% Aggressive
 
+Similar to 30%, but more unstable.
 
+![[40n_6e_50aggro_1.png]]
+
+![[40n_6e_50aggro_2.png]]
 
 ## 70% Aggressive
 
+Similar trend in fitness to the other splits, except even more unstable.
 
+![[40n_6e_70aggro_0.png]]
+
+![[40n_6e_70aggro_5.png]]
+
+<div class="page-break" style="page-break-before: always;"></div>
 
 # Discussion
 
-## Overcomplication
+## Overcomplicated?
 
-In hindsight, it is possible that we overcomplicated this assignment. It may have sufficed to leave part 1's communication mechanism as "both node change randomly on conflict", or something simple, along that line of thinking. It was what we previously had implemented, but later changed for reasons we are not sure of.
+In hindsight, it is possible that we overcomplicated the assignment. It may have sufficed to leave part 1's communication mechanism as "both node change randomly on conflict", or something simple, along that line of thinking. It was what we previously had implemented, but later changed as we felt it was not enough.
 
 ## Results
 
 There are no significant, obvious change to the performance introduced by the concept of personality. This might in part be due to the fact that we possibly overcomplicated part 1, which is discussed in previous section.
+
+On the non-convergence runs, part 2 does seem to perform better, on average reaching a lower conflict count. It also seems more stable than part 1, which does not seem to retain good colourings. This however may be an issue when the graph reaches a colouring that is an local optima.
+
+<div class="page-break" style="page-break-before: always;"></div>
 
 # Conclusion 
 
@@ -143,6 +168,10 @@ In part 1, we described the approach in closer detail, and briefly listed some o
 In part 2, we introduced the concept of "personalities" to nodes, where a node can either be aggressive or passive. We detailed the changes in communication rules based on personalities, and demonstrated the fitness progressions of some of the runs.
 
 Lastly, we briefly discussed our thoughts on our approach.
+
+Fitness graphs of *all* runs can be found in the [appendix](#appendix).
+
+<div class="page-break" style="page-break-before: always;"></div>
 
 # Appendix
 
@@ -303,3 +332,5 @@ Lastly, we briefly discussed our thoughts on our approach.
 ![[40n_6e_70aggro_8.png]]
 
 ![[40n_6e_70aggro_9.png]]
+
+this report is probably overcomplicated too
