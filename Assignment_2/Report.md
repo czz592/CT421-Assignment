@@ -104,8 +104,7 @@ If personalities clash (both aggressive or both passive):
 - if either node has available colours: the node with available colours will change
 - else both change to random
 
-Else, the aggressive node will tell the passive node to either change to an available colour, or a random colour, depending on whether or not their lists of available colours are empty or not.
-
+Else, the aggressive node will tell the passive node to either change to an available colour, or a random colour, depending on whether or not their lists of available colours are empty.
 
 To test the approach, we decided to stick with the 40 node, 6 degree, small-world graph. The numbers are of arbitrary choice. Below will compare the different percentages of aggressive nodes. Please note that the percentage of aggressive nodes are approximated, as the random function is used.
 
