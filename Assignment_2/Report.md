@@ -108,11 +108,16 @@ Else, the aggressive node will tell the passive node to either change to an avai
 
 To test the approach, we decided to stick with the 40 node, 6 degree, small-world graph. The numbers are of arbitrary choice. Below will compare the different percentages of aggressive nodes. Please note that the percentage of aggressive nodes are approximated, as the random function is used.
 
-## 50% Aggressive
+## 10% Aggressive
 
+![[40n_6e_10aggro_0.png]]
 
 
 ## 30% Aggressive
+
+
+
+## 50% Aggressive
 
 
 
